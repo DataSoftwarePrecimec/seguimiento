@@ -1,6 +1,7 @@
 export async function onRequestPost(context) {
   try {
     const body = await context.request.json();
+    import { GAS_URL } from "./config.js";
     const response = await fetch(
      GAS_URL,
       {
