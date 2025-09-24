@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <style>
+      input[type="file"] {
+        display: none;
+      }
+      .upload-btn {
+        padding: 8px 12px;
+        background: #ff9800;   /* orange */
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      .upload-btn:hover {
+        background: #e68900;   /* darker orange */
+      }
+      body { 
+        font-family: Arial, sans-serif; 
+        margin: 20px; 
+      } 
+      header { 
+        display: flex; 
+        flex-direction: column; 
+        align-items: column; 
+        text-align: center; 
+        margin-bottom: 20px; 
+      }
+      header h1, header h3 {
+        flex: 1;
+        text-align: center; /* text stays centered */
+        margin: 0;
+      }
+      h1 { color: #333; } 
+      input, textarea { 
+        width: 100%; 
+        padding: 8px; 
+        margin: 6px 0; 
+        border: 1px solid #ccc; 
+        border-radius: 4px; 
+        max-width: 400px 
+      } 
+      button { 
+        padding: 10px 15px; 
+        background: #28a745; 
+        color: white; 
+        border: none; 
+        border-radius: 4px; 
+        cursor: pointer; 
+      } 
+      button:hover { 
+        background: #218838; 
+      }
+      button:disabled {
+        background: #ccc !important;
+        cursor: not-allowed;
+        opacity: 0.6;
+      }
+      table { 
+        width: 95%; 
+        border-collapse: collapse; 
+        margin: 20px auto; 
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1); 
+      } 
+      th, td { 
+        border: 1px solid #ccc; 
+        padding: 10px; 
+        text-align: left; 
+      } 
+      th { 
+        background-color: #4285F4;
+        color: white;
+        text-align: center; 
+      }
+      td a {
+        display: block;
+        text-align: center;
+      }
+      #loading {
+        text-align: center;
+        margin: 20px;
+        font-weight: bold;
+        color: #555;
+      }
+      .spinner {
+        border: 6px solid #f3f3f3;
+        border-top: 6px solid #4285F4;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: auto;
+      }
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <img src="https://i.ibb.co/pBXFc1zd/LOGO-NOMBRE-LEMA-PNG.png" alt="Company Logo" style="height:auto; width:360px;"> 
+      <h1>APROBACIÓN DE SERVICIOS</h1>
+      <h3>454 DE 2025</h3>
+    </header>
+    <form id="entryForm"> 
+      <label>Correo Electrónico:</label> 
+      <input type="email" name="correo" required> 
+    </form> 
+    <p id="status"></p> 
+    <h2>Pacientes Pendientes de Aprobación</h2> 
+    <div style="text-align:center; margin-bottom:20px;"> 
+      <button id="submitBtn" type="button" onclick="submitForm()" disabled>
+        ENVIAR DATOS
+      </button> 
+      <p id="formWarning" style="color: red; font-weight: bold; display: none; margin-top:10px;"></p>
+    </div>
+    <div id="loading">
+      <div class="spinner"></div>
+      <p>Cargando pacientes pendientes...</p>
+    </div>
+    <table style="display:none;">
+      <thead>
+        <tr>
+          <th>ORDEN DE SERVICIO</th>
+          <th>NOMBRES DEL PACIENTE</th>
+          <th>PROFORMA</th>
+          <th>GASTO QUIRÚRGICO</th>
+          <th>FACTURA</th>
+          <th>DESCRIPCIÓN QUIRÚRGICA</th>
+          <th>NOTA ACLARATORIA</th>
+          <th>ESPECIALIDAD</th>
+          <th>APROBACIÓN</th>
+          <th>GRUPO</th>
+          <th>ETIQUETA</th>
+          <th>DESCRIPCIÓN</th>
+        </tr>
+      </thead>
+      <tbody id="dataTable"></tbody>
+    </table>
+    <script>
+      function addRow(data, incons) {
+        const table = document.getElementById("dataTable");
+        const row = document.createElement("tr");
+        row.dataset.edited = "false";
+        row.classList.add("data-row");
+        const notaCode        = data.links["NOTA ACLARATORIA"] ? Object.keys(data.links["NOTA ACLARATORIA"])[0] : "";
+        const notaLink        = data.links["NOTA ACLARATORIA"] ? Object.values(data.links["NOTA ACLARATORIA"])[0] : "";
+        const gastoCode       = data.links["GASTO QUIRÚRGICO"] ? Object.keys(data.links["GASTO QUIRÚRGICO"])[0] : "";
+        const gastoLink       = data.links["GASTO QUIRÚRGICO"] ? Object.values(data.links["GASTO QUIRÚRGICO"])[0] : "";
+        const facturaCode     = data.links["FACTURA"] ? Object.keys(data.links["FACTURA"])[0] : "";
+        const facturaLink     = data.links["FACTURA"] ? Object.values(data.links["FACTURA"])[0] : "";
+        const proformaCode    = data.links["PROFORMA"] ? Object.keys(data.links["PROFORMA"])[0] : "";
+        const proformaLink    = data.links["PROFORMA"] ? Object.values(data.links["PROFORMA"])[0] : "";
+        const descripcionCode = data.links["DESCRIPCION QUIRÚRGICA"] ? Object.keys(data.links["DESCRIPCION QUIRÚRGICA"])[0] : "";
+        const descripcionLink = data.links["DESCRIPCION QUIRÚRGICA"] ? Object.values(data.links["DESCRIPCION QUIRÚRGICA"])[0] : "";
+        const especialidadValue = data.especiality || "";
+        row.innerHTML = `
+          <td>${data.order}</td>
+          <td>${data.name}</td>
+          <td>${proformaLink ? `<a href="${proformaLink}" target="_blank">${proformaCode}</a>` : ""}</td>
+          <td>${gastoLink ? `<a href="${gastoLink}" target="_blank">${gastoCode}</a>` : ""}</td>
+          <td>${facturaLink ? `<a href="${facturaLink}" target="_blank">${facturaCode}</a>` : ""}</td>
+          <td>
+            <div style="text-align:center;">
+              ${descripcionLink 
+                ? `<a href="${descripcionLink}" target="_blank">${descripcionCode}</a>` 
+                : ""}
+            </div>
+          </td>
+          <td>
+            <div style="text-align:center;">
+              ${notaLink 
+                ? `<a href="${notaLink}" target="_blank">${notaCode}</a>` 
+                : `<label class="upload-btn">Subir PDF
+                    <input type="file" accept="application/pdf" />
+                  </label>`}
+            </div>
+          </td>
+          <td></td> <!-- ESPECIALIDAD -->
+          <td></td> <!-- APROBACIÓN -->
+          <td>
+            <select disabled>
+              <option value="">-- Seleccione grupo --</option>
+              ${Object.keys(incons).map(g=>`<option value="${g}">${g}</option>`).join("")}
+            </select>
+          </td>
+          <td>
+            <select disabled>
+              <option value="">-- Seleccione etiqueta --</option>
+            </select>
+          </td>
+          <td><textarea disabled rows="3" style="width:100%; box-sizing:border-box;"></textarea></td>
+        `;
+        table.appendChild(row);
+        const inputs = row.querySelectorAll("input, select, textarea");
+        inputs.forEach(el => {
+          el.addEventListener("change", () => {
+            row.dataset.edited = "true";
+          });
+        });
+        
+        const descCell        = row.cells[5];
+        const especialidadCell= row.cells[7];
+        const aprobacionCell  = row.cells[8];
+        const grupoSelect     = row.cells[9].querySelector("select");
+        const etiquetaSelect  = row.cells[10].querySelector("select");
+        const descripcionArea = row.cells[11].querySelector("textarea");
+        if (data.approval.length === 0) {
+          descCell.innerHTML = `
+            <div style="text-align:center;">
+              <label class="upload-btn">
+                Subir PDF
+                <input type="file" accept="application/pdf" />
+              </label>
+            </div>
+          `;
+          especialidadCell.innerHTML = `
+            <select>
+              <option value="">-- Seleccione especialidad --</option>
+              <option value="ORTOPEDIA" ${especialidadValue==="ORTOPEDIA"?"selected":""}>ORTOPEDIA</option>
+              <option value="NEURO" ${especialidadValue==="NEURO"?"selected":""}>NEURO</option>
+              <option value="PLÁSTICA" ${especialidadValue==="PLÁSTICA"?"selected":""}>PLÁSTICA</option>
+              <option value="CABEZA Y CUELLO" ${especialidadValue==="CABEZA Y CUELLO"?"selected":""}>CABEZA Y CUELLO</option>
+            </select>
+          `;
+          aprobacionCell.innerHTML = `<select disabled><option>-- Bloqueado --</option></select>`;
+        } else {
+          aprobacionCell.innerHTML = `
+            <select>
+              <option value="">-- Seleccione --</option>
+              ${data.approval.map(opt => `<option value="${opt}">${opt}</option>`).join("")}
+            </select>
+          `;
+          const aprobacionSelect = aprobacionCell.querySelector("select");
+          aprobacionSelect.addEventListener("change", function() {
+            if (this.value.startsWith("RECHAZAR")) {
+              grupoSelect.disabled = false;
+            } else {
+              grupoSelect.disabled = true;
+              etiquetaSelect.disabled = true;
+              descripcionArea.disabled = true;
+            }
+          });
+          grupoSelect.addEventListener("change", function() {
+            const group = this.value;
+            etiquetaSelect.innerHTML = `<option value="">-- Seleccione etiqueta --</option>`;
+            if (group && incons[group]) {
+              incons[group].forEach(pair => {
+                const etiqueta = pair[0];
+                const responsable = pair[1];
+
+                const opt = document.createElement("option");
+                opt.value = etiqueta;                 // show etiqueta only
+                opt.textContent = etiqueta;
+                opt.dataset.responsable = responsable; // keep responsable hidden
+
+                etiquetaSelect.appendChild(opt);
+              });
+              etiquetaSelect.disabled = false;
+            } else {
+              etiquetaSelect.disabled = true;
+            }
+          });
+          etiquetaSelect.addEventListener("change", function() {
+            descripcionArea.disabled = this.value === "";
+          });
+        }
+      }
+      function validateForm() {
+        const emailInput = document.querySelector("input[name='correo']");
+        const rows = document.querySelectorAll("#dataTable tr.data-row");
+        let valid = true;
+        let message = "";
+        const email = emailInput.value.trim();
+
+        // Validate email
+        if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+          showMessage("Debe ingresar un correo electrónico válido.");
+          return false;
+        } else {
+          hideMessage();
+        }
+
+        let edited = false;
+
+        rows.forEach(row => {
+          const descCell      = row.cells[5];
+          const notaCell      = row.cells[6];
+          const espCell       = row.cells[7];
+          const aprCell       = row.cells[8];
+          const grupoSelect   = row.cells[9].querySelector("select");
+          const etiquetaSelect = row.cells[10].querySelector("select");
+          const descArea      = row.cells[11].querySelector("textarea");
+
+          const fileDesc  = descCell.querySelector("input[type='file']");
+          const fileNota  = notaCell.querySelector("input[type='file']");
+          const espSelect = espCell.querySelector("select");
+          const aprSelect = aprCell.querySelector("select");
+
+          // 1) DESCRIPCIÓN QUIRÚRGICA + ESPECIALIDAD
+          if (fileDesc) {
+            if (fileDesc.files.length > 0 && (espSelect && espSelect.value)) {
+              edited = true;
+              row.dataset.edited = "true";
+            } else if (fileDesc.files.length > 0) {
+              valid = false;
+              message = "Debe seleccionar una especialidad.";
+            } else if (espSelect && espSelect.value) {
+              valid = false;
+              message = "Debe seleccionar un archivo de Descripción Quirúrgica.";
+            }
+          }
+
+          // 2) NOTA ACLARATORIA sola
+          if (fileNota && fileNota.files.length > 0) {
+            edited = true;
+            row.dataset.edited = "true";
+            // No extra validation required
+          }
+
+          // 3) APROBACIÓN
+          if (
+            aprSelect &&
+            aprSelect.value !== "" &&
+            aprSelect.value !== "-- Bloqueado --" &&
+            aprSelect.value !== "-- Seleccione --"
+          ) {
+            edited = true;
+            row.dataset.edited = "true";
+            if (aprSelect.value.startsWith("RECHAZAR")) {
+              if (grupoSelect.value === "") {
+                valid = false;
+                message = "Debe seleccionar un grupo.";
+              }
+              if (etiquetaSelect.value === "") {
+                valid = false;
+                message = "Debe seleccionar una etiqueta.";
+              }
+              if (descArea.value.trim() === "") {
+                valid = false;
+                message = "Debe escribir una descripción.";
+              }
+            }
+          }
+        });
+
+        if (!edited) {
+          showMessage("Debe editar al menos una fila.");
+          return false;
+        }
+        if (!valid) {
+          showMessage(message);
+          return false;
+        }
+
+        hideMessage();
+        return true;
+      }
+      function submitForm() {
+        if (!validateForm()) return;
+        const email = document.querySelector("input[name='correo']").value;
+        const editedRows = Array.from(document.querySelectorAll("#dataTable tr"))
+          .filter(r => r.dataset.edited === "true");
+        const rowPromises = editedRows.map(r => {
+          return new Promise(resolve => {
+            const descCell    = r.cells[5];
+            const notaCell    = r.cells[6];
+            const espSelect   = r.cells[7].querySelector("select");
+            const aprSelect   = r.cells[8].querySelector("select");
+            const grupoSel    = r.cells[9].querySelector("select");
+            const etiquetaSel = r.cells[10].querySelector("select");
+            const descArea    = r.cells[11].querySelector("textarea");
+
+            const fileDesc = descCell.querySelector("input[type='file']")?.files[0] || null;
+            const fileNota = notaCell.querySelector("input[type='file']")?.files[0] || null;
+            const readFileAsBase64 = (file) => {
+              return new Promise(res => {
+                if (!file) return res(null);
+                const reader = new FileReader();
+                reader.onload = e => res(e.target.result);
+                reader.readAsDataURL(file);
+              });
+            };
+            Promise.all([readFileAsBase64(fileDesc), readFileAsBase64(fileNota)])
+              .then(([descBase64, notaBase64]) => {
+                resolve({
+                  order: r.cells[0].textContent,
+                  names: r.cells[1].textContent,
+                  hc: descBase64,
+                  nota: notaBase64,
+                  especialidad: espSelect ? espSelect.value : "",
+                  aprobacion: (aprSelect && aprSelect.value && !aprSelect.value.includes("Bloqueado")) ? aprSelect.value : "",
+                  grupo: (aprSelect && aprSelect.value.startsWith("RECHAZAR") && grupoSel.value !== "") ? grupoSel.value : "",
+                  etiqueta: (aprSelect && aprSelect.value.startsWith("RECHAZAR") && etiquetaSel.value !== "") ? etiquetaSel.value : "",
+                  responsable: (aprSelect && aprSelect.value.startsWith("RECHAZAR") && etiquetaSel.value !== "")
+                                ? etiquetaSel.options[etiquetaSel.selectedIndex].dataset.responsable
+                                : "",
+                  descripcion: (aprSelect && aprSelect.value.startsWith("RECHAZAR")) ? descArea.value.trim() : ""
+                });
+              });
+          });
+        });
+        showMessage("Convirtiendo archivos a Base64...", "green");
+        
+      }
+      function showMessage(msg, color = "red") {
+        const warning = document.getElementById("formWarning");
+        warning.textContent = msg;
+        warning.style.display = "block";
+        warning.style.color = color;
+      }
+      function hideMessage() {
+        const warning = document.getElementById("formWarning");
+        warning.textContent = "";
+        warning.style.display = "none";
+      }
+      document.addEventListener("change", function(e) {
+        if (e.target.matches("input[type='file']")) {
+          const label = e.target.closest("label.upload-btn");
+          if (label) {
+            if (e.target.files.length > 0) {
+              label.style.backgroundColor = "#4caf50"; // green
+              label.style.color = "white";
+            } else {
+              label.style.backgroundColor = "#ff9800"; // original orange
+              label.style.color = "white";
+            }
+          }
+        }
+      });
+      window.onload = function() {
+        
+      }
+    </script>
+  </body>
+</html>
