@@ -12,45 +12,57 @@
       <h3>454 DE 2025</h3>
     </header>
 
-    <form id="entryForm"> 
-      <label>Correo Electrónico:</label> 
-      <input type="email" name="correo" required> 
-    </form> 
-
-    <p id="status"></p> 
-
-    <h2>Pacientes Pendientes de Aprobación</h2> 
-    <div style="text-align:center; margin-bottom:20px;"> 
-      <button id="submitBtn" type="button" onclick="submit_form()" disabled>
-        ENVIAR DATOS
-      </button> 
-      <p id="formWarning" style="color: red; font-weight: bold; display: none; margin-top:10px;"></p>
+   <div id="authSection" style="text-align:center; margin-bottom:20px;">
+      <!-- Step 1: enter email -->
+      <div id="emailStep">
+        <label>Correo Electrónico:</label><br>
+        <input type="email" id="emailInput" required>
+        <button type="button" onclick="requestCode()">VERIFICAR EMAIL</button>
+        <p id="emailStatus" style="color:red; font-weight:bold; display:none;"></p>
+      </div>
+      <!-- Step 2: enter code -->
+      <div id="codeStep" style="display:none; margin-top:15px;">
+        <label>Ingrese el código enviado a su correo:</label><br>
+        <input type="text" id="codeInput" maxlength="6">
+        <button type="button" onclick="verifyCode()">VALIDAR CÓDIGO</button>
+        <p id="codeStatus" style="color:red; font-weight:bold; display:none;"></p>
+      </div>
     </div>
 
-    <div id="loading">
-      <div class="spinner"></div>
-      <p>Cargando pacientes pendientes...</p>
+   <div id="appSection" style="display:none;">
+      <h2>Pacientes Pendientes de Aprobación</h2> 
+      <div style="text-align:center; margin-bottom:20px;"> 
+        <button id="submitBtn" type="button" onclick="submit_form()" disabled>
+          ENVIAR DATOS
+        </button> 
+        <p id="formWarning" style="color: red; font-weight: bold; display: none; margin-top:10px;"></p>
+      </div>
+    
+      <div id="loading" style="display:none;">
+        <div class="spinner"></div>
+        <p>Cargando pacientes pendientes...</p>
+      </div>
+    
+      <table style="display:none;">
+        <thead>
+          <tr>
+            <th>ORDEN DE SERVICIO</th>
+            <th>NOMBRES DEL PACIENTE</th>
+            <th>PROFORMA</th>
+            <th>GASTO QUIRÚRGICO</th>
+            <th>FACTURA</th>
+            <th>DESCRIPCIÓN QUIRÚRGICA</th>
+            <th>NOTA ACLARATORIA</th>
+            <th>ESPECIALIDAD</th>
+            <th>APROBACIÓN</th>
+            <th>GRUPO</th>
+            <th>ETIQUETA</th>
+            <th>DESCRIPCIÓN</th>
+          </tr>
+        </thead>
+        <tbody id="dataTable"></tbody>
+      </table>
     </div>
-
-    <table style="display:none;">
-      <thead>
-        <tr>
-          <th>ORDEN DE SERVICIO</th>
-          <th>NOMBRES DEL PACIENTE</th>
-          <th>PROFORMA</th>
-          <th>GASTO QUIRÚRGICO</th>
-          <th>FACTURA</th>
-          <th>DESCRIPCIÓN QUIRÚRGICA</th>
-          <th>NOTA ACLARATORIA</th>
-          <th>ESPECIALIDAD</th>
-          <th>APROBACIÓN</th>
-          <th>GRUPO</th>
-          <th>ETIQUETA</th>
-          <th>DESCRIPCIÓN</th>
-        </tr>
-      </thead>
-      <tbody id="dataTable"></tbody>
-    </table>
 
     <!-- Import scripts in order -->
     <script src="js/main.js"></script>
