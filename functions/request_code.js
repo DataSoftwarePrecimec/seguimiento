@@ -1,29 +1,23 @@
-import { GAS_URL } from "./config.js";
+import { GAS_URL } from "../config.js";
 
-function request_code() {
-  const email = document.getElementById("emailInput").value.trim();
-  const statusEl = document.getElementById("emailStatus");
+export async function onRequestPost(context) {
+  try {
+    const { email } = await context.request.json();
 
-  statusEl.style.display = "none";
-  fetch(GAS_URL + "?cmd=request_code", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email })
-  })
-    .then(res => res.json())
-    .then(data => {
-      if (data.status === "ok") {
-        // Hide email step, show code step
-        document.getElementById("emailStep").style.display = "none";
-        document.getElementById("codeStep").style.display = "block";
-      } else {
-        statusEl.textContent = data.message || "El correo no está autorizado.";
-        statusEl.style.display = "block";
-      }
-    })
-    .catch(err => {
-      console.error("Error requesting code:", err);
-      statusEl.textContent = "Error de conexión.";
-      statusEl.style.display = "block";
+    // Proxy request to Google Apps Script
+    const res = await fetch(GAS_URL + "?cmd=request_code", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email })
     });
+
+    return new Response(await res.text(), {
+      headers: { "Content-Type": "application/json" }
+    });
+  } catch (err) {
+    return new Response(
+      JSON.stringify({ status: "error", message: err.message }),
+      { headers: { "Content-Type": "application/json" } }
+    );
+  }
 }
