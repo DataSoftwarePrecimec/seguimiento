@@ -1,10 +1,8 @@
 export async function onRequestPost(context) {
   try {
     const body = await context.request.json();
-
-    // Forward request to your Google Apps Script
     const response = await fetch(
-      "https://script.google.com/macros/s/AKfycbw53IZjag5cbwGOq0qTwnnv_w3iD00hDD8gjHnQBUfa1e37scVUXW97JQpnjtM_WgLW/exec",
+     GAS_URL,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
