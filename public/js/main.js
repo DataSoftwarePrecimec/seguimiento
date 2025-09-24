@@ -82,3 +82,10 @@ function toggle_validate_button() {
   const btn = document.getElementById("validateBtn");
   btn.disabled = code.length < 6; // enable only when 6 chars
 }
+function check_email() {
+  const emailField = document.getElementById("emailInput");
+  const verifyBtn = document.getElementById("verifyBtn");
+  const email = emailField.value.trim();
+  const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  verifyBtn.disabled = !valid;
+}
