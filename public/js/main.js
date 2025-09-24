@@ -33,13 +33,7 @@ function hide_message() {
   warning.textContent = "";
   warning.style.display = "none";
 }
-
-// -----------------------------
-// Global event listeners
-// -----------------------------
 document.addEventListener("DOMContentLoaded", initApp);
-
-// Change style of file-upload buttons when a file is selected
 document.addEventListener("change", function (e) {
   if (e.target.matches("input[type='file']")) {
     const label = e.target.closest("label.upload-btn");
