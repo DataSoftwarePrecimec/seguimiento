@@ -1,5 +1,6 @@
 export async function onRequest(context) {
   try {
+    import { GAS_URL } from "./config.js";
     const url = GAS_URL + "?cmd=get_rows";
     const response = await fetch(url);
     if (!response.ok) {
