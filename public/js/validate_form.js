@@ -7,7 +7,7 @@ function validate_form() {
 
         // Validate email
         if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
-          showMessage("Debe ingresar un correo electrónico válido.");
+          show_message("Debe ingresar un correo electrónico válido.");
           return false;
         } else {
           hideMessage();
@@ -77,11 +77,11 @@ function validate_form() {
         });
 
         if (!edited) {
-          showMessage("Debe editar al menos una fila.");
+          show_message("Debe editar al menos una fila.");
           return false;
         }
         if (!valid) {
-          showMessage(message);
+          show_message(message);
           return false;
         }
 
