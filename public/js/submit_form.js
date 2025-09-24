@@ -42,9 +42,9 @@ function submit_form() {
               });
           });
         });
-        showMessage("Convirtiendo archivos a Base64...", "green");
+        show_message("Convirtiendo archivos a Base64...", "green");
         Promise.all(rowPromises).then(payload => {
-          showMessage("Enviando datos...", "green");
+          show_message("Enviando datos...", "green");
           fetch("/save_data", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -56,19 +56,19 @@ function submit_form() {
               try {
                 const result = JSON.parse(text);
                 if (result.status === "ok") {
-                  showMessage("Datos enviados correctamente.", "green");
+                  show_message("Datos enviados correctamente.", "green");
                   document.getElementById("submitBtn").disabled = true;
                 } else {
-                  showMessage(result.message || "Error en el servidor.", "red");
+                  show_message(result.message || "Error en el servidor.", "red");
                 }
               } catch (err) {
                 console.error("JSON parse error:", err);
-                showMessage("Respuesta inválida del servidor", "red");
+                show_message("Respuesta inválida del servidor", "red");
               }
             })
             .catch(err => {
               console.error("Fetch failed:", err);
-              showMessage("Error al enviar los datos.", "red");
+              show_message("Error al enviar los datos.", "red");
             });
         });
       }
