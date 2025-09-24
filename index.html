@@ -406,7 +406,7 @@
         showMessage("Convirtiendo archivos a Base64...", "green");
         Promise.all(rowPromises).then(payload => {
           showMessage("Enviando datos...", "green");
-          fetch(""https://script.google.com/macros/s/AKfycbxbsgfFR49j44PFsXi-BlxiD-0snFJaZU40kUOe0GcAmYKn7d8KcH3qQWVuG8g6jl7N/exec", {
+          fetch("https://script.google.com/macros/s/AKfycbxbsgfFR49j44PFsXi-BlxiD-0snFJaZU40kUOe0GcAmYKn7d8KcH3qQWVuG8g6jl7N/exec", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ cmd: "save_data", payload, email })
