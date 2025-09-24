@@ -404,7 +404,24 @@
           });
         });
         showMessage("Convirtiendo archivos a Base64...", "green");
-        
+        Promise.all(rowPromises).then(payload => {
+          showMessage("Enviando datos...", "green");
+          fetch(""https://script.google.com/macros/s/AKfycbxbsgfFR49j44PFsXi-BlxiD-0snFJaZU40kUOe0GcAmYKn7d8KcH3qQWVuG8g6jl7N/exec", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ cmd: "save_data", payload, email })
+          })
+            .then(res => res.json())
+            .then(result => {
+              if (result.status === "ok") {
+                showMessage("Datos enviados correctamente.", "green");
+                document.getElementById("submitBtn").disabled = true;
+              } else {
+                showMessage(result.message || "Error en el servidor.", "red");
+              }
+            })
+            .catch(() => showMessage("Error al enviar los datos.", "red"));
+        });
       }
       function showMessage(msg, color = "red") {
         const warning = document.getElementById("formWarning");
@@ -432,7 +449,21 @@
         }
       });
       window.onload = function() {
-        
+        fetch("https://script.google.com/macros/s/AKfycbxbsgfFR49j44PFsXi-BlxiD-0snFJaZU40kUOe0GcAmYKn7d8KcH3qQWVuG8g6jl7N/exec?cmd=get_rows")
+          .then(res => res.json())
+          .then(result => {
+            const rows = result.rows;
+            const incons = result.incons;
+            rows.forEach(r => addRow(r, incons));
+            document.getElementById("loading").style.display = "none";
+            document.querySelector("table").style.display = "table";
+            document.getElementById("submitBtn").disabled = false;
+          })
+          .catch(err => {
+            console.error("Error loading data:", err);
+            document.getElementById("loading").innerHTML = "<p style='color:red'>Error cargando datos</p>";
+          });
+
       }
     </script>
   </body>
