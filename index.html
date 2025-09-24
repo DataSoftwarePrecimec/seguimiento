@@ -407,20 +407,30 @@
         Promise.all(rowPromises).then(payload => {
           showMessage("Enviando datos...", "green");
           fetch("/save_data", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ cmd: "save_data", payload, email })
-            })
-            .then(res => res.json())
-            .then(result => {
-              if (result.status === "ok") {
-                showMessage("Datos enviados correctamente.", "green");
-                document.getElementById("submitBtn").disabled = true;
-              } else {
-                showMessage(result.message || "Error en el servidor.", "red");
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ cmd: "save_data", payload, email })
+          })
+            .then(async res => {
+              const text = await res.text();
+              console.log("RAW response from /save_data:", text);
+              try {
+                const result = JSON.parse(text);
+                if (result.status === "ok") {
+                  showMessage("Datos enviados correctamente.", "green");
+                  document.getElementById("submitBtn").disabled = true;
+                } else {
+                  showMessage(result.message || "Error en el servidor.", "red");
+                }
+              } catch (err) {
+                console.error("JSON parse error:", err);
+                showMessage("Respuesta inválida del servidor", "red");
               }
             })
-            .catch(() => showMessage("Error al enviar los datos.", "red"));
+            .catch(err => {
+              console.error("Fetch failed:", err);
+              showMessage("Error al enviar los datos.", "red");
+            });
         });
       }
       function showMessage(msg, color = "red") {
