@@ -3,7 +3,7 @@ function request_code() {
   const statusEl = document.getElementById("emailStatus");
 
   statusEl.style.display = "none";
-
+  import { GAS_URL } from "./config.js";
   fetch(GAS_URL + "?cmd=request_code", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
