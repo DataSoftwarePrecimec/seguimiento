@@ -1,7 +1,7 @@
 export async function onRequest(context) {
   try {
     const url =
-      "https://script.google.com/macros/s/AKfycbxbsgfFR49j44PFsXi-BlxiD-0snFJaZU40kUOe0GcAmYKn7d8KcH3qQWVuG8g6jl7N/exec?cmd=get_rows";
+      "https://script.google.com/macros/s/AKfycbw53IZjag5cbwGOq0qTwnnv_w3iD00hDD8gjHnQBUfa1e37scVUXW97JQpnjtM_WgLW/exec?cmd=get_rows";
     const response = await fetch(url);
     if (!response.ok) {
       return new Response(
