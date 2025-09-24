@@ -4,7 +4,7 @@ export async function onRequestPost(context) {
 
     // Forward request to your Google Apps Script
     const response = await fetch(
-      "https://script.google.com/macros/s/AKfycbxbsgfFR49j44PFsXi-BlxiD-0snFJaZU40kUOe0GcAmYKn7d8KcH3qQWVuG8g6jl7N/exec",
+      "https://script.google.com/macros/s/AKfycbw53IZjag5cbwGOq0qTwnnv_w3iD00hDD8gjHnQBUfa1e37scVUXW97JQpnjtM_WgLW/exec",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
