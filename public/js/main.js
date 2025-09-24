@@ -53,32 +53,31 @@ document.addEventListener("change", function (e) {
 
 function request_code() {
   const email = document.getElementById("emailInput").value.trim();
-  const status = document.getElementById("emailStatus");
-  if (!email || !email.includes("@")) {
-    status.style.display = "block";
-    status.textContent = "Ingrese un correo válido.";
-    return;
-  }
-  fetch("/request_code", {
+  const statusEl = document.getElementById("emailStatus");
+
+  statusEl.style.display = "none";
+  fetch("/request_code", {   // <-- now hits our Cloudflare Function
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email })
   })
     .then(res => res.json())
-    .then(result => {
-      if (result.status === "ok") {
-        status.style.display = "none";
+    .then(data => {
+      if (data.status === "ok") {
+        document.getElementById("emailStep").style.display = "none";
         document.getElementById("codeStep").style.display = "block";
       } else {
-        status.style.display = "block";
-        status.textContent = result.message || "Correo no autorizado.";
+        statusEl.textContent = data.message || "El correo no está autorizado.";
+        statusEl.style.display = "block";
       }
     })
-    .catch(() => {
-      status.style.display = "block";
-      status.textContent = "Error verificando el correo.";
+    .catch(err => {
+      console.error("Error requesting code:", err);
+      statusEl.textContent = "Error de conexión.";
+      statusEl.style.display = "block";
     });
 }
+
 function toggle_validate_button() {
   const code = document.getElementById("codeInput").value.trim();
   const btn = document.getElementById("validateBtn");
