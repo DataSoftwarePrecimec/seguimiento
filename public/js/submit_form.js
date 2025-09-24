@@ -1,5 +1,5 @@
 function submit_form() {
-        if (!validateForm()) return;
+        if (!validate_form()) return;
         const email = document.querySelector("input[name='correo']").value;
         const editedRows = Array.from(document.querySelectorAll("#dataTable tr"))
           .filter(r => r.dataset.edited === "true");
