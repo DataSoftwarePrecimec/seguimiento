@@ -1,1 +1,74 @@
+function submit_form() {
+        if (!validateForm()) return;
+        const email = document.querySelector("input[name='correo']").value;
+        const editedRows = Array.from(document.querySelectorAll("#dataTable tr"))
+          .filter(r => r.dataset.edited === "true");
+        const rowPromises = editedRows.map(r => {
+          return new Promise(resolve => {
+            const descCell    = r.cells[5];
+            const notaCell    = r.cells[6];
+            const espSelect   = r.cells[7].querySelector("select");
+            const aprSelect   = r.cells[8].querySelector("select");
+            const grupoSel    = r.cells[9].querySelector("select");
+            const etiquetaSel = r.cells[10].querySelector("select");
+            const descArea    = r.cells[11].querySelector("textarea");
 
+            const fileDesc = descCell.querySelector("input[type='file']")?.files[0] || null;
+            const fileNota = notaCell.querySelector("input[type='file']")?.files[0] || null;
+            const readFileAsBase64 = (file) => {
+              return new Promise(res => {
+                if (!file) return res(null);
+                const reader = new FileReader();
+                reader.onload = e => res(e.target.result);
+                reader.readAsDataURL(file);
+              });
+            };
+            Promise.all([readFileAsBase64(fileDesc), readFileAsBase64(fileNota)])
+              .then(([descBase64, notaBase64]) => {
+                resolve({
+                  order: r.cells[0].textContent,
+                  names: r.cells[1].textContent,
+                  hc: descBase64,
+                  nota: notaBase64,
+                  especialidad: espSelect ? espSelect.value : "",
+                  aprobacion: (aprSelect && aprSelect.value && !aprSelect.value.includes("Bloqueado")) ? aprSelect.value : "",
+                  grupo: (aprSelect && aprSelect.value.startsWith("RECHAZAR") && grupoSel.value !== "") ? grupoSel.value : "",
+                  etiqueta: (aprSelect && aprSelect.value.startsWith("RECHAZAR") && etiquetaSel.value !== "") ? etiquetaSel.value : "",
+                  responsable: (aprSelect && aprSelect.value.startsWith("RECHAZAR") && etiquetaSel.value !== "")
+                                ? etiquetaSel.options[etiquetaSel.selectedIndex].dataset.responsable
+                                : "",
+                  descripcion: (aprSelect && aprSelect.value.startsWith("RECHAZAR")) ? descArea.value.trim() : ""
+                });
+              });
+          });
+        });
+        showMessage("Convirtiendo archivos a Base64...", "green");
+        Promise.all(rowPromises).then(payload => {
+          showMessage("Enviando datos...", "green");
+          fetch("/save_data", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ cmd: "save_data", payload, email })
+          })
+            .then(async res => {
+              const text = await res.text();
+              console.log("RAW response from /save_data:", text);
+              try {
+                const result = JSON.parse(text);
+                if (result.status === "ok") {
+                  showMessage("Datos enviados correctamente.", "green");
+                  document.getElementById("submitBtn").disabled = true;
+                } else {
+                  showMessage(result.message || "Error en el servidor.", "red");
+                }
+              } catch (err) {
+                console.error("JSON parse error:", err);
+                showMessage("Respuesta inválida del servidor", "red");
+              }
+            })
+            .catch(err => {
+              console.error("Fetch failed:", err);
+              showMessage("Error al enviar los datos.", "red");
+            });
+        });
+      }
