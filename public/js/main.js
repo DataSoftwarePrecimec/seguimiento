@@ -48,3 +48,37 @@ document.addEventListener("change", function (e) {
     }
   }
 });
+
+function request_code() {
+  const email = document.getElementById("emailInput").value.trim();
+  const status = document.getElementById("emailStatus");
+  if (!email || !email.includes("@")) {
+    status.style.display = "block";
+    status.textContent = "Ingrese un correo válido.";
+    return;
+  }
+  fetch("/request_code", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email })
+  })
+    .then(res => res.json())
+    .then(result => {
+      if (result.status === "ok") {
+        status.style.display = "none";
+        document.getElementById("codeStep").style.display = "block";
+      } else {
+        status.style.display = "block";
+        status.textContent = result.message || "Correo no autorizado.";
+      }
+    })
+    .catch(() => {
+      status.style.display = "block";
+      status.textContent = "Error verificando el correo.";
+    });
+}
+function toggle_validate_button() {
+  const code = document.getElementById("codeInput").value.trim();
+  const btn = document.getElementById("validateBtn");
+  btn.disabled = code.length < 6; // enable only when 6 chars
+}
