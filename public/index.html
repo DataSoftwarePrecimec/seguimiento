@@ -1,1 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Aprobación de Servicios</title>
+    <link rel="stylesheet" href="css/styles.css">
+  </head>
+  <body>
+    <header>
+      <img src="https://i.ibb.co/pBXFc1zd/LOGO-NOMBRE-LEMA-PNG.png" alt="Company Logo" style="height:auto; width:360px;"> 
+      <h1>APROBACIÓN DE SERVICIOS</h1>
+      <h3>454 DE 2025</h3>
+    </header>
 
+    <form id="entryForm"> 
+      <label>Correo Electrónico:</label> 
+      <input type="email" name="correo" required> 
+    </form> 
+
+    <p id="status"></p> 
+
+    <h2>Pacientes Pendientes de Aprobación</h2> 
+    <div style="text-align:center; margin-bottom:20px;"> 
+      <button id="submitBtn" type="button" onclick="submitForm()" disabled>
+        ENVIAR DATOS
+      </button> 
+      <p id="formWarning" style="color: red; font-weight: bold; display: none; margin-top:10px;"></p>
+    </div>
+
+    <div id="loading">
+      <div class="spinner"></div>
+      <p>Cargando pacientes pendientes...</p>
+    </div>
+
+    <table style="display:none;">
+      <thead>
+        <tr>
+          <th>ORDEN DE SERVICIO</th>
+          <th>NOMBRES DEL PACIENTE</th>
+          <th>PROFORMA</th>
+          <th>GASTO QUIRÚRGICO</th>
+          <th>FACTURA</th>
+          <th>DESCRIPCIÓN QUIRÚRGICA</th>
+          <th>NOTA ACLARATORIA</th>
+          <th>ESPECIALIDAD</th>
+          <th>APROBACIÓN</th>
+          <th>GRUPO</th>
+          <th>ETIQUETA</th>
+          <th>DESCRIPCIÓN</th>
+        </tr>
+      </thead>
+      <tbody id="dataTable"></tbody>
+    </table>
+
+    <!-- Import scripts in order -->
+    <script src="js/addRow.js"></script>
+    <script src="js/validateForm.js"></script>
+    <script src="js/submitForm.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
