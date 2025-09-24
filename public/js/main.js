@@ -8,7 +8,7 @@ function initApp() {
       const rows = result.rows;
       const incons = result.incons;
 
-      rows.forEach(r => addRow(r, incons));
+      rows.forEach(r => add_row(r, incons));
 
       document.getElementById("loading").style.display = "none";
       document.querySelector("table").style.display = "table";
