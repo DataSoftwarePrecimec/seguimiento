@@ -108,13 +108,13 @@ document.getElementById("validateCodeBtn").addEventListener("click", async () =>
     const res = await fetch("/validate_code", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, code, sessionCode: currentSessionCode })
+      body: JSON.stringify({ email, code})
     });
     const data = await res.json();
     if (data.status === "ok") {
-      alert("✅ Código validado correctamente");
+      alert("Código validado correctamente");
     } else {
-      alert("❌ Código incorrecto o expirado");
+      alert("Código incorrecto o expirado");
       btn.disabled = false;
     }
   } catch (err) {
