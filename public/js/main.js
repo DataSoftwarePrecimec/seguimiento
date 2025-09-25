@@ -60,7 +60,7 @@ document.addEventListener("change", function (e) {
 });
 
 document.getElementById("sendEmailBtn").addEventListener("click", async () => {
-  const email = document.getElementById("emailInput").value.trim();
+  const email = document.getElementById("correoInput").value.trim().toLowerCase();
   const res = await fetch("/send_code", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
