@@ -47,20 +47,26 @@ input, textarea {
   max-width: 400px; 
 }
 
-button { 
-  padding: 10px 15px; 
-  background: #28a745; 
-  color: white; 
-  border: none; 
-  border-radius: 4px; 
-  cursor: pointer; 
+button,
+.form-row button {
+  padding: 10px 15px;
+  background: #28a745;   /* green */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s ease;
 }
 
-button:hover { 
-  background: #218838; 
+button:hover,
+.form-row button:hover {
+  background: #218838;   /* darker green */
 }
 
-button:disabled {
+/* Disabled look */
+button:disabled,
+.form-row button:disabled {
   background: #ccc !important;
   cursor: not-allowed;
   opacity: 0.6;
