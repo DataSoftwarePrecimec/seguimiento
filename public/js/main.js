@@ -1,5 +1,5 @@
 function initialize() {
-  fetch("/get_rows")
+  /*fetch("/get_rows")
     .then(res => {
       if (!res.ok) throw new Error("Network response was not ok");
       return res.json();
@@ -18,7 +18,7 @@ function initialize() {
       console.error("Error loading data:", err);
       document.getElementById("loading").innerHTML =
         "<p style='color:red'>Error cargando datos</p>";
-    });
+    });*/
 }
 
 function show_message(msg, color = "red") {
@@ -49,7 +49,7 @@ document.getElementById("codigoInput").addEventListener("input", function () {
 });
 
 //FUNCIÓN AL INICIO
-document.addEventListener("DOMContentLoaded", inititialize);
+document.addEventListener("DOMContentLoaded", initialize);
 
 //CAMBIAR BOTÓN A VERDE CUANDO SE SUBE UN ARCHIVO
 document.addEventListener("change", function (e) {
