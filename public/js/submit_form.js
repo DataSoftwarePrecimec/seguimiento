@@ -1,7 +1,7 @@
 function submit_form() {
   if (!validate_form()) return;
   const submitBtn = document.getElementById("submitBtn");
-  submitBtn.disabled = true; // 🚫 disable immediately
+  submitBtn.disabled = true;
   const email = document.querySelector("input[name='correo']").value;
   const editedRows = Array.from(document.querySelectorAll("#dataTable tr"))
     .filter(r => r.dataset.edited === "true");
@@ -14,10 +14,8 @@ function submit_form() {
       const grupoSel    = r.cells[9].querySelector("select");
       const etiquetaSel = r.cells[10].querySelector("select");
       const descArea    = r.cells[11].querySelector("textarea");
-
       const fileDesc = descCell.querySelector("input[type='file']")?.files[0] || null;
       const fileNota = notaCell.querySelector("input[type='file']")?.files[0] || null;
-
       const readFileAsBase64 = (file) => {
         return new Promise(res => {
           if (!file) return res(null);
