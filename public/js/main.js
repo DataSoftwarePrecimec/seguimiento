@@ -67,22 +67,26 @@ document.getElementById("sendEmailBtn").addEventListener("click", async (e) => {
   const btn = e.target;
   btn.disabled = true;
   const email = document.getElementById("correoInput").value.trim().toLowerCase();
-  const res = await fetch("/send_code", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ cmd: "send_code", email })
-  });
-
-  const data = await res.json();
-  if (data.status === "ok") {
-    alert(
-      "Código enviado a " +
-        email +
-        ". Por favor revise su correo e ingrese el código en el campo correspondiente."
-    );
-    document.getElementById("codigoInput").disabled = false;
-  } else {
-    alert("Error al enviar el código: " + (data.message || "desconocido"));
+  try {
+    const res = await fetch("/send_code", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ cmd: "send_code", email })
+    });
+    const data = await res.json();
+    if (data.status === "ok") {
+      alert(
+        "Código enviado a " +
+          email +
+          ". Por favor revise su correo e ingrese el código en el campo correspondiente."
+      );
+      document.getElementById("codigoInput").disabled = false;
+    } else {
+      alert("Error al enviar el código: " + (data.message || "desconocido"));
+      btn.disabled = false;
+    }
+  } catch (err) {
+    alert("Error de red: " + err.message);
     btn.disabled = false;
   }
 });
