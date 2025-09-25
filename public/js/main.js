@@ -110,18 +110,7 @@ async function get_rows_and_populate() {
     const data = await res.json();
     document.querySelector("table").style.display = "table";
     document.getElementById("submitBtn").disabled = false;
-    if (!document.getElementById("downloadBtn")) {
-      const btn = document.createElement("button");
-      btn.id = "downloadBtn";
-      btn.textContent = "DESCARGAR INFORME";
-      btn.type = "button";
-      btn.style.marginLeft = "10px";
-      btn.addEventListener("click", () => {
-        alert("Descargar informe todavía no implementado");
-      });
-      document.getElementById("submitBtn").insertAdjacentElement("afterend", btn);
-    }
-    const incons = data.inconsistencies || {}; // adjust to your GAS payload
+    const incons = data.inconsistencies || {};
     data.rows.forEach(r => add_row(r, incons));
     document.getElementById("loading").style.display = "none";
   } catch (err) {
