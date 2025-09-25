@@ -73,15 +73,11 @@
     <script src="js/submit_form.js"></script>
 
     <script>
-      // ✅ Show section after successful validation
       function onCodeValidated() {
         document.getElementById("postValidationSection").style.display = "block";
         document.getElementById("submitBtn").disabled = false;
-        // Optionally fetch and fill rows
         load_rows();
       }
-
-      // Placeholder for report download
       function download_report() {
         alert("Descargando informe...");
         // You can implement fetch to backend here
