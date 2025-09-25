@@ -1,12 +1,11 @@
 function submit_form() {
   if (!validate_form()) return;
-  const submitBtn      = document.getElementById("submitBtn");
-  const downloadBtn    = document.getElementById("downloadReportBtn");
+  const submitBtn   = document.getElementById("submitBtn");
+  const downloadBtn = document.getElementById("downloadReportBtn");
   submitBtn.disabled   = true;
   downloadBtn.disabled = true;
   const email      = document.querySelector("input[name='correo']").value;
-  const editedRows = Array.from(document.querySelectorAll("#dataTable tr"))
-    .filter(r => r.dataset.edited === "true");
+  const editedRows = Array.from(document.querySelectorAll("#dataTable tr")).filter(r => r.dataset.edited === "true");
   const rowPromises = editedRows.map(r => {
     return new Promise(resolve => {
       const descCell    = r.cells[5];
@@ -52,7 +51,7 @@ function submit_form() {
     fetch("/save_data", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ cmd: "save_data", code, email, payload})
+      body: JSON.stringify({ cmd: "save_data", code, email, payload })
     })
       .then(async res => {
         const text = await res.text();
@@ -60,25 +59,26 @@ function submit_form() {
         try {
           const result = JSON.parse(text);
           if (result.data_saved) {
-            submitBtn.disabled   = false;
-            downloadBtn.disabled = false;
             show_message("Datos enviados correctamente.", "green");
             if (result.payload && result.payload.rows) {
               populate_table(result.payload.rows, result.payload.incons);
             }
           } else {
             show_message(result.message || "Error en el servidor.", "red");
-            submitBtn.disabled = false;
           }
         } catch (err) {
           console.error("JSON parse error:", err);
           show_message("Respuesta inválida del servidor", "red");
-          submitBtn.disabled = false;
+
         }
+        submitBtn.disabled   = false;
+        downloadBtn.disabled = false;
+      })
       .catch(err => {
         console.error("Fetch failed:", err);
         show_message("Error al enviar los datos.", "red");
-        submitBtn.disabled = false;
+        submitBtn.disabled   = false;
+        downloadBtn.disabled = false;
       });
   });
 }
