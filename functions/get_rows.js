@@ -5,7 +5,7 @@ export async function onRequest(context) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       cmd: "get_rows",
-      session_code: globalThis.session_code // keep it server side
+      session_code: globalThis.session_code
     })
   });
   return new Response(await response.text(), {
