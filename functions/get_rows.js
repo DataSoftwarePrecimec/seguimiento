@@ -1,27 +1,15 @@
 export async function onRequest(context) {
-  try {
-    const url = "https://script.google.com/macros/s/.../exec";
-    const response = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ cmd: "get_rows" })
-    });
-    console.log('RESPONSE: ' + Object.keys(response))
-    if (!response.ok) {
-      return new Response(
-        JSON.stringify({ error: "Failed to fetch from GAS", status: response.status }),
-        { status: 500, headers: { "Content-Type": "application/json" } }
-      );
-    }
-    const data = await response.json();
-    return new Response(JSON.stringify(data), {
-      status: 200,
-      headers: { "Content-Type": "application/json" }
-    });
-  } catch (err) {
-    return new Response(
-      JSON.stringify({ error: "Server error", details: err.message }),
-      { status: 500, headers: { "Content-Type": "application/json" } }
-    );
-  }
+  const url = "https://script.google.com/macros/s/AKfycbxbsgfFR49j44PFsXi-BlxiD-0snFJaZU40kUOe0GcAmYKn7d8KcH3qQWVuG8g6jl7N/exec";
+  const response = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      cmd: "get_rows",
+      session_code: globalThis.session_code // keep it server side
+    })
+  });
+  return new Response(await response.text(), {
+    status: response.status,
+    headers: { "Content-Type": "application/json" }
+  });
 }
