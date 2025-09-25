@@ -46,10 +46,11 @@ function submit_form() {
   show_message("Convirtiendo archivos a Base64...", "green");
   Promise.all(rowPromises).then(payload => {
     show_message("Enviando datos...", "green");
+    const code = document.getElementById("codigoInput").value.trim();
     fetch("/save_data", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ cmd: "save_data", payload, email })
+      body: JSON.stringify({ cmd: "save_data", code, payload, email })
     })
       .then(async res => {
         const text = await res.text();
