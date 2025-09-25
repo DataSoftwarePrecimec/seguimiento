@@ -96,9 +96,14 @@ document.getElementById("validateCodeBtn").addEventListener("click", async () =>
   }
 });
 
+//OBTENER FILAS
 async function get_rows_and_populate() {
   try {
-    const res = await fetch("/get_rows");
+    const res = await fetch("/get_rows", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({}) // can be empty or later include params
+    });
     if (!res.ok) throw new Error("No se pudieron obtener los datos");
     const data = await res.json();
     document.querySelector("table").style.display = "table";
