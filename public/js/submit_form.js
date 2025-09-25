@@ -57,9 +57,11 @@ function submit_form() {
         console.log("RAW response from /save_data:", text);
         try {
           const result = JSON.parse(text);
-          if (result.status === "ok") {
+          if (result.data_saved) {
             show_message("Datos enviados correctamente.", "green");
-            // keep disabled (success)
+            if (result.payload && result.payload.rows) {
+              populate_table(result.payload.rows, result.payload.incons);
+            }
           } else {
             show_message(result.message || "Error en el servidor.", "red");
             submitBtn.disabled = false;
@@ -69,7 +71,6 @@ function submit_form() {
           show_message("Respuesta inválida del servidor", "red");
           submitBtn.disabled = false;
         }
-      })
       .catch(err => {
         console.error("Fetch failed:", err);
         show_message("Error al enviar los datos.", "red");
