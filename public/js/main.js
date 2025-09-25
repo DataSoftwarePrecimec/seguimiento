@@ -63,7 +63,7 @@ document.addEventListener("change", function (e) {
   }
 });
 
-document.getElementById("sendEmailBtn").addEventListener("click", async () => {
+document.getElementById("sendEmailBtn").addEventListener("click", async (e) => {
   const btn = e.target;
   btn.disabled = true;
   const email = document.getElementById("correoInput").value.trim().toLowerCase();
