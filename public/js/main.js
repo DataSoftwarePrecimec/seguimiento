@@ -96,26 +96,42 @@ document.getElementById("validateCodeBtn").addEventListener("click", async () =>
   }
 });
 
-//OBTENER FILAS
+//OBTENER FILAS BACKEND
+async function fetch_rows() {
+  const code = document.getElementById("codigoInput").value.trim();
+  const res = await fetch("/get_rows", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ code })
+  });
+  if (!res.ok) throw new Error("No se pudieron obtener los datos");
+  return res.json(); // { rows: [...], inconsistencies: {...} }
+}
+
+//LLENAR TABLAS
+function populate_table(rows, inconsistencies) {
+  const tbody = document.getElementById("dataTable");
+  tbody.innerHTML = ""; // clear existing
+  rows.forEach(r => add_row(r, inconsistencies));
+}
+
+//OBTENER Y LLENAR TABLAS. SE LLAMA CUANDO SE HA VALIDADO POR PRIMERA VEZ EL CÓDIGO
 async function get_rows_and_populate() {
   try {
     document.getElementById("loading").style.display = "block";
     document.querySelector("table").style.display = "none";
-    const code = document.getElementById("codigoInput").value.trim();
-    const res = await fetch("/get_rows", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({code})
-    });
-    if (!res.ok) throw new Error("No se pudieron obtener los datos");
-    const data = await res.json();
+
+    const data = await fetch_rows();
+
     document.querySelector("table").style.display = "table";
     document.getElementById("submitBtn").disabled = false;
-    const incons = data.inconsistencies || {};
-    data.rows.forEach(r => add_row(r, incons));
+
+    populate_table(data.rows, data.inconsistencies || {});
+
     document.getElementById("loading").style.display = "none";
   } catch (err) {
     console.error("Error en get_rows_and_populate:", err);
     alert("Error cargando los datos");
+    document.getElementById("loading").style.display = "none";
   }
 }
