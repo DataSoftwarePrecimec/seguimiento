@@ -25,9 +25,6 @@ document.getElementById("codigoInput").addEventListener("input", function () {
   document.getElementById("validateCodeBtn").disabled = !isValid;
 });
 
-//FUNCIÓN AL INICIO
-document.addEventListener("DOMContentLoaded", initialize);
-
 //CAMBIAR BOTÓN A VERDE CUANDO SE SUBE UN ARCHIVO
 document.addEventListener("change", function (e) {
   if (e.target.matches("input[type='file']")) {
