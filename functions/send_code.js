@@ -2,7 +2,7 @@ export async function onRequest(context) {
   try {
     let body                = await context.request.json();
     globalThis.session_code = crypto.randomUUID();
-    body.session_code       = session_code;
+    body.session_code       = globalThis.session_code;
     const url               = "https://script.google.com/macros/s/AKfycbxbsgfFR49j44PFsXi-BlxiD-0snFJaZU40kUOe0GcAmYKn7d8KcH3qQWVuG8g6jl7N/exec";
     const response = await fetch(url, {
       method: "POST",
@@ -16,7 +16,7 @@ export async function onRequest(context) {
     });
   } catch (err) {
     return new Response(
-      JSON.stringify({ error: "Failed to send code", details: err.message }),
+      JSON.stringify({ error: "Fallo en el envio del código", detalles: err.message }),
       { status: 500, headers: { "Content-Type": "application/json" } }
     );
   }
