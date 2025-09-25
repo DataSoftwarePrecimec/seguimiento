@@ -33,6 +33,7 @@ export async function onRequest(context) {
       })
     });
     const data = await response.json();
+    console.log(data);
     if (data.valid === true) {
       return new Response(JSON.stringify({ status: "ok" }), {
         status: 200,
