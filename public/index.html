@@ -4,7 +4,6 @@
     <meta charset="utf-8">
     <title>Aprobación de Servicios</title>
     <link rel="stylesheet" href="css/styles.css">
-    <!-- Tab icon -->
     <link rel="icon" type="image/png" href="img/small.png">
   </head>
   <body>
@@ -13,17 +12,19 @@
       <h1>APROBACIÓN DE SERVICIOS</h1>
       <h3>454 DE 2025</h3>
     </header>
-    <form id="entryForm"> 
-      <div>
-        <label for="correo">Correo Electrónico:</label> 
-        <input type="email" id="correoInput" name="correo" required>
+    <form id="entryForm" novalidate>
+      <div class="form-row">
+        <label for="correoInput">Correo Electrónico:</label>
+        <input type="email" id="correoInput" name="correo" required aria-describedby="correoHelp" />
         <button type="button" id="sendEmailBtn" disabled>ENVIAR CORREO</button>
       </div>
-      <div style="margin-top: 10px;">
-        <label for="codigo">Ingresar Código:</label> 
-        <input type="text" id="codigoInput" maxlength="6" required>
+      <div id="correoHelp" class="field-error" aria-live="polite"></div>
+      <div class="form-row">
+        <label for="codigoInput">Ingresar Código:</label>
+        <input type="text" id="codigoInput" name="codigo" maxlength="6" inputmode="numeric" pattern="\d{6}" aria-describedby="codigoHelp" />
         <button type="button" id="validateCodeBtn" disabled>VALIDAR CÓDIGO</button>
       </div>
+      <div id="codigoHelp" class="field-error" aria-live="polite"></div>
     </form>
     <p id="status"></p> 
     <h2>Pacientes Pendientes de Aprobación</h2> 
