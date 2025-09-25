@@ -1,9 +1,9 @@
 export async function onRequest(context) {
   try {
-    let body = await context.request.json();
-    session_code      = crypto.randomUUID();
-    body.session_code = session_code;
-    const url = "https://script.google.com/macros/s/AKfycbxbsgfFR49j44PFsXi-BlxiD-0snFJaZU40kUOe0GcAmYKn7d8KcH3qQWVuG8g6jl7N/exec";
+    let body                = await context.request.json();
+    globalThis.session_code = crypto.randomUUID();
+    body.session_code       = session_code;
+    const url               = "https://script.google.com/macros/s/AKfycbxbsgfFR49j44PFsXi-BlxiD-0snFJaZU40kUOe0GcAmYKn7d8KcH3qQWVuG8g6jl7N/exec";
     const response = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
