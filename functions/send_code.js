@@ -1,4 +1,4 @@
-let session_code = null;
+slet session_code = null;
 
 export async function onRequest(context) {
   try {
@@ -25,5 +25,5 @@ export async function onRequest(context) {
   }
 }
 export function getLastSessionCode() {
-  return lastSessionCode;
+  return session_code;
 }
