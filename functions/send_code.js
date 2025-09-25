@@ -1,17 +1,17 @@
+let session_code = null;
+
 export async function onRequest(context) {
   try {
     let body = await context.request.json();
-    body.sessionCode = crypto.randomUUID();  // inject session ID
-
-    const url =
-      "https://script.google.com/macros/s/AKfycbxbsgfFR49j44PFsXi-BlxiD-0snFJaZU40kUOe0GcAmYKn7d8KcH3qQWVuG8g6jl7N/exec";
-
+    const sessionCode = crypto.randomUUID();
+    lastSessionCode = sessionCode;
+    body.sessionCode = sessionCode;
+    const url = "https://script.google.com/macros/s/AKfycbxbsgfFR49j44PFsXi-BlxiD-0snFJaZU40kUOe0GcAmYKn7d8KcH3qQWVuG8g6jl7N/exec";
     const response = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body)
     });
-
     const text = await response.text();
     return new Response(text, {
       status: response.status,
@@ -23,4 +23,7 @@ export async function onRequest(context) {
       { status: 500, headers: { "Content-Type": "application/json" } }
     );
   }
+}
+export function getLastSessionCode() {
+  return lastSessionCode;
 }
