@@ -58,3 +58,19 @@ document.addEventListener("change", function (e) {
     }
   }
 });
+
+document.getElementById("sendEmailBtn").addEventListener("click", async () => {
+  const email = document.getElementById("emailInput").value.trim();
+  const res = await fetch("/send_code", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email })
+  });
+  const data = await res.json();
+  if (data.status === "ok") {
+    alert("Código enviado a " + email + " por favor revise su correo e ingrese el Código en el campo correspondiente");
+    document.getElementById("codeInput").disabled = false;
+  } else {
+    alert("Error al enviar el código: " + (data.message || "desconocido"));
+  }
+});
