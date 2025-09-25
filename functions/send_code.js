@@ -1,4 +1,4 @@
-slet session_code = null;
+let session_code = null;
 
 export async function onRequest(context) {
   try {
