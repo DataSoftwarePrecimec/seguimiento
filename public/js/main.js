@@ -1,26 +1,3 @@
-function initialize() {
-  /*fetch("/get_rows")
-    .then(res => {
-      if (!res.ok) throw new Error("Network response was not ok");
-      return res.json();
-    })
-    .then(result => {
-      const rows = result.rows;
-      const incons = result.incons;
-
-      rows.forEach(r => add_row(r, incons));
-
-      document.getElementById("loading").style.display = "none";
-      document.querySelector("table").style.display = "table";
-      document.getElementById("submitBtn").disabled = false;
-    })
-    .catch(err => {
-      console.error("Error loading data:", err);
-      document.getElementById("loading").innerHTML =
-        "<p style='color:red'>Error cargando datos</p>";
-    });*/
-}
-
 function show_message(msg, color = "red") {
   const warning = document.getElementById("formWarning");
   warning.textContent = msg;
@@ -101,17 +78,16 @@ document.getElementById("validateCodeBtn").addEventListener("click", async () =>
   const email = document.getElementById("correoInput").value.trim().toLowerCase();
   const code = document.getElementById("codigoInput").value.trim();
   const btn = document.getElementById("validateCodeBtn");
-  console.log([email, code].join(', '))
   btn.disabled = true;
   try {
     const res = await fetch("/validate_code", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, code})
+      body: JSON.stringify({ email, code })
     });
     const data = await res.json();
     if (data.status === "ok") {
-      alert("Código validado correctamente");
+      await get_rows_and_populate();
     } else {
       alert("Código incorrecto o expirado");
       btn.disabled = false;
@@ -119,6 +95,33 @@ document.getElementById("validateCodeBtn").addEventListener("click", async () =>
   } catch (err) {
     console.error("Error en /validate_code:", err);
     alert("Error de red al validar el código");
-    btn.disabled = false; // re-enable on failure
+    btn.disabled = false;
   }
 });
+
+async function get_rows_and_populate() {
+  try {
+    const res = await fetch("/get_rows");
+    if (!res.ok) throw new Error("No se pudieron obtener los datos");
+    const data = await res.json();
+    document.querySelector("table").style.display = "table";
+    document.getElementById("submitBtn").disabled = false;
+    if (!document.getElementById("downloadBtn")) {
+      const btn = document.createElement("button");
+      btn.id = "downloadBtn";
+      btn.textContent = "DESCARGAR INFORME";
+      btn.type = "button";
+      btn.style.marginLeft = "10px";
+      btn.addEventListener("click", () => {
+        alert("Descargar informe todavía no implementado");
+      });
+      document.getElementById("submitBtn").insertAdjacentElement("afterend", btn);
+    }
+    const incons = data.inconsistencies || {}; // adjust to your GAS payload
+    data.rows.forEach(r => add_row(r, incons));
+    document.getElementById("loading").style.display = "none";
+  } catch (err) {
+    console.error("Error en get_rows_and_populate:", err);
+    alert("Error cargando los datos");
+  }
+}
