@@ -6,6 +6,7 @@ export async function onRequest(context) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ cmd: "get_rows" })
     });
+    console.log('RESPONSE' + response)
     if (!response.ok) {
       return new Response(
         JSON.stringify({ error: "Failed to fetch from GAS", status: response.status }),
