@@ -84,7 +84,7 @@ document.getElementById("validateCodeBtn").addEventListener("click", async () =>
     });
     const data = await res.json();
     if (data.status === "ok") {
-      await get_rows_and_populate();
+      onCodeValidated();
     } else {
       alert("Código incorrecto o expirado");
       btn.disabled = false;
