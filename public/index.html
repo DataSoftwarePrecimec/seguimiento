@@ -28,18 +28,19 @@
     </form>
     <div id="postValidationSection" style="display:none;">
       <h2>Pacientes Pendientes de Aprobación</h2> 
-     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-      <div style="flex:1; text-align:center;">
+
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+        <button style="visibility:hidden;" id="dummyBtn">
+          DESCARGAR INFORME
+        </button>
         <button id="submitBtn" type="button" onclick="submit_form()" disabled>
           ENVIAR DATOS
         </button>
-      </div>
-      <div>
         <button id="downloadReportBtn" type="button" onclick="download_report()">
           DESCARGAR INFORME
         </button>
       </div>
-    </div>
+      
       <p id="formWarning" style="color: red; font-weight: bold; display: none; margin-top:10px;"></p>
       
       <div id="loading">
