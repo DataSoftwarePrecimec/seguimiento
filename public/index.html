@@ -74,13 +74,16 @@
 
     <script>
       function onCodeValidated() {
-        document.getElementById("postValidationSection").style.display = "block";
+        const section = document.getElementById("postValidationSection");
+        section.style.display = "block";
+        const loading = document.getElementById("loading");
+        loading.style.display = "block";
+        document.querySelector("table").style.display = "none";
         document.getElementById("submitBtn").disabled = false;
         load_rows();
       }
       function download_report() {
         alert("Descargando informe...");
-        // You can implement fetch to backend here
       }
     </script>
   </body>
