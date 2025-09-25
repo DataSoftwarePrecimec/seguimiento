@@ -48,6 +48,7 @@ export async function onRequest(context) {
       );
     }
   } catch (err) {
+    console.log(err)
     return new Response(
       JSON.stringify({
         status: "error",
