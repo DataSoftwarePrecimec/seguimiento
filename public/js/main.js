@@ -101,6 +101,7 @@ document.getElementById("validateCodeBtn").addEventListener("click", async () =>
   const email = document.getElementById("correoInput").value.trim().toLowerCase();
   const code = document.getElementById("codigoInput").value.trim();
   const btn = document.getElementById("validateCodeBtn");
+  console.log([email, code].join(', '))
   btn.disabled = true;
   try {
     const res = await fetch("/validate_code", {
