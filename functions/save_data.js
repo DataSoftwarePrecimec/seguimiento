@@ -1,8 +1,7 @@
 export async function onRequestPost(context) {
   try {
     const body = await context.request.json();
-
-    // Forward request to your Google Apps Script
+    body.session_code = ''
     const response = await fetch(
       "https://script.google.com/macros/s/AKfycbxbsgfFR49j44PFsXi-BlxiD-0snFJaZU40kUOe0GcAmYKn7d8KcH3qQWVuG8g6jl7N/exec",
       {
