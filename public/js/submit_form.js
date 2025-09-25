@@ -1,8 +1,10 @@
 function submit_form() {
   if (!validate_form()) return;
-  const submitBtn = document.getElementById("submitBtn");
-  submitBtn.disabled = true;
-  const email = document.querySelector("input[name='correo']").value;
+  const submitBtn      = document.getElementById("submitBtn");
+  const downloadBtn    = document.getElementById("downloadReportBtn");
+  submitBtn.disabled   = true;
+  downloadBtn.disabled = true;
+  const email      = document.querySelector("input[name='correo']").value;
   const editedRows = Array.from(document.querySelectorAll("#dataTable tr"))
     .filter(r => r.dataset.edited === "true");
   const rowPromises = editedRows.map(r => {
@@ -58,6 +60,8 @@ function submit_form() {
         try {
           const result = JSON.parse(text);
           if (result.data_saved) {
+            submitBtn.disabled   = false;
+            downloadBtn.disabled = false;
             show_message("Datos enviados correctamente.", "green");
             if (result.payload && result.payload.rows) {
               populate_table(result.payload.rows, result.payload.incons);
