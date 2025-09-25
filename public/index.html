@@ -27,39 +27,65 @@
       <div id="codigoHelp" class="field-error" aria-live="polite"></div>
     </form>
     <p id="status"></p> 
-    <h2>Pacientes Pendientes de Aprobación</h2> 
-    <div style="text-align:center; margin-bottom:20px;"> 
-      <button id="submitBtn" type="button" onclick="submit_form()" disabled>
-        ENVIAR DATOS
-      </button> 
+
+    <!-- 🔽 Everything hidden until code validation -->
+    <div id="postValidationSection" style="display:none;">
+      <h2>Pacientes Pendientes de Aprobación</h2> 
+      <div style="text-align:center; margin-bottom:20px; display:flex; justify-content:center; gap:10px;">
+        <button id="submitBtn" type="button" onclick="submit_form()" disabled>
+          ENVIAR DATOS
+        </button> 
+        <!-- New button -->
+        <button id="downloadReportBtn" type="button" onclick="download_report()">
+          DESCARGAR INFORME
+        </button>
+      </div>
       <p id="formWarning" style="color: red; font-weight: bold; display: none; margin-top:10px;"></p>
+      
+      <div id="loading">
+        <div class="spinner"></div>
+        <p>Cargando pacientes pendientes...</p>
+      </div>
+      <table style="display:none;">
+        <thead>
+          <tr>
+            <th>ORDEN DE SERVICIO</th>
+            <th>NOMBRES DEL PACIENTE</th>
+            <th>PROFORMA</th>
+            <th>GASTO QUIRÚRGICO</th>
+            <th>FACTURA</th>
+            <th>DESCRIPCIÓN QUIRÚRGICA</th>
+            <th>NOTA ACLARATORIA</th>
+            <th>ESPECIALIDAD</th>
+            <th>APROBACIÓN</th>
+            <th>GRUPO</th>
+            <th>ETIQUETA</th>
+            <th>DESCRIPCIÓN</th>
+          </tr>
+        </thead>
+        <tbody id="dataTable"></tbody>
+      </table>
     </div>
-    <div id="loading">
-      <div class="spinner"></div>
-      <p>Cargando pacientes pendientes...</p>
-    </div>
-    <table style="display:none;">
-      <thead>
-        <tr>
-          <th>ORDEN DE SERVICIO</th>
-          <th>NOMBRES DEL PACIENTE</th>
-          <th>PROFORMA</th>
-          <th>GASTO QUIRÚRGICO</th>
-          <th>FACTURA</th>
-          <th>DESCRIPCIÓN QUIRÚRGICA</th>
-          <th>NOTA ACLARATORIA</th>
-          <th>ESPECIALIDAD</th>
-          <th>APROBACIÓN</th>
-          <th>GRUPO</th>
-          <th>ETIQUETA</th>
-          <th>DESCRIPCIÓN</th>
-        </tr>
-      </thead>
-      <tbody id="dataTable"></tbody>
-    </table>
+
     <script src="js/main.js"></script>
     <script src="js/add_rows.js"></script>
     <script src="js/validate_form.js"></script>
     <script src="js/submit_form.js"></script>
+
+    <script>
+      // ✅ Show section after successful validation
+      function onCodeValidated() {
+        document.getElementById("postValidationSection").style.display = "block";
+        document.getElementById("submitBtn").disabled = false;
+        // Optionally fetch and fill rows
+        load_rows();
+      }
+
+      // Placeholder for report download
+      function download_report() {
+        alert("Descargando informe...");
+        // You can implement fetch to backend here
+      }
+    </script>
   </body>
 </html>
