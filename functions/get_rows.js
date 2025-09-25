@@ -1,8 +1,11 @@
 export async function onRequest(context) {
   try {
-    const url =
-      "https://script.google.com/macros/s/AKfycbxbsgfFR49j44PFsXi-BlxiD-0snFJaZU40kUOe0GcAmYKn7d8KcH3qQWVuG8g6jl7N/exec?cmd=get_rows";
-    const response = await fetch(url);
+    const url = "https://script.google.com/macros/s/.../exec";
+    const response = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ cmd: "get_rows" })
+    });
     if (!response.ok) {
       return new Response(
         JSON.stringify({ error: "Failed to fetch from GAS", status: response.status }),
