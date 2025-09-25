@@ -120,20 +120,10 @@ async function get_rows_and_populate() {
   try {
     document.getElementById("loading").style.display = "block";
     document.querySelector("table").style.display = "none";
-
-    console.log("Before fetch_rows()");
     const data = await fetch_rows();
-    console.log("After fetch_rows(), got:", data);
-
     document.querySelector("table").style.display = "table";
     document.getElementById("submitBtn").disabled = false;
-    
-    console.log("Before populate_table()");
     populate_table(data.rows, data.inconsistencies || {});
-    console.log("After populate_table()");
-
-    //populate_table(data.rows, data.inconsistencies || {});
-
     document.getElementById("loading").style.display = "none";
   } catch (err) {
     console.error("Error en get_rows_and_populate:", err);
