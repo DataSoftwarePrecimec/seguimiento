@@ -26,21 +26,20 @@
       </div>
       <div id="codigoHelp" class="field-error" aria-live="polite"></div>
     </form>
-    <p id="status"></p> 
     <div id="postValidationSection" style="display:none;">
       <h2>Pacientes Pendientes de Aprobación</h2> 
      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-        <div style="flex:1; text-align:center;">
-          <button id="submitBtn" type="button" onclick="submit_form()" disabled>
-            ENVIAR DATOS
-          </button>
-        </div>
-        <div>
-          <button id="downloadReportBtn" type="button" onclick="download_report()">
-            DESCARGAR INFORME
-          </button>
-        </div>
+      <div style="flex:1; text-align:center;">
+        <button id="submitBtn" type="button" onclick="submit_form()" disabled>
+          ENVIAR DATOS
+        </button>
       </div>
+      <div>
+        <button id="downloadReportBtn" type="button" onclick="download_report()">
+          DESCARGAR INFORME
+        </button>
+      </div>
+    </div>
       <p id="formWarning" style="color: red; font-weight: bold; display: none; margin-top:10px;"></p>
       
       <div id="loading">
