@@ -5,7 +5,7 @@ export async function onRequest(context) {
       return new Response(
         JSON.stringify({
           status: "error",
-          message: "Missing email or code"
+          message: "Falta el correo o el código"
         }),
         { status: 400, headers: { "Content-Type": "application/json" } }
       );
@@ -14,12 +14,13 @@ export async function onRequest(context) {
       return new Response(
         JSON.stringify({
           status: "error",
-          message: "No session_code available. Did you call /send_code first?"
+          message: "Sin código de sesión. Llamaste primero a /send_code?"
         }),
         { status: 400, headers: { "Content-Type": "application/json" } }
       );
     }
     body.session_code = globalThis.session_code;
+    console.log(body.session_code)
     const url = "https://script.google.com/macros/s/AKfycbxbsgfFR49j44PFsXi-BlxiD-0snFJaZU40kUOe0GcAmYKn7d8KcH3qQWVuG8g6jl7N/exec";
     const response = await fetch(url, {
       method: "POST",
