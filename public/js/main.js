@@ -1,4 +1,5 @@
-function initApp() {
+function initialize() {
+  /*
   fetch("/get_rows")
     .then(res => {
       if (!res.ok) throw new Error("Network response was not ok");
@@ -19,6 +20,7 @@ function initApp() {
       document.getElementById("loading").innerHTML =
         "<p style='color:red'>Error cargando datos</p>";
     });
+*/
 }
 
 function show_message(msg, color = "red") {
@@ -34,20 +36,24 @@ function hide_message() {
   warning.style.display = "none";
 }
 
+//VALIDAR CORREO Y DESBLOQUEAR BOTÓN:
 document.getElementById("correoInput").addEventListener("input", function () {
   const email = this.value.trim();
   const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   document.getElementById("sendEmailBtn").disabled = !isValid;
 });
 
+//VALIDAR CÓDIGO Y DESBLOQUEAR BOTÓN
 document.getElementById("codigoInput").addEventListener("input", function () {
   const code = this.value.trim();
   const isValid = /^\d{6}$/.test(code);
   document.getElementById("validateCodeBtn").disabled = !isValid;
 });
 
-document.addEventListener("DOMContentLoaded", initApp);
+//FUNCIÓN AL INICIO
+document.addEventListener("DOMContentLoaded", init_app);
 
+//CAMBIAR BOTÓN A VERDE CUANDO SE SUBE UN ARCHIVO
 document.addEventListener("change", function (e) {
   if (e.target.matches("input[type='file']")) {
     const label = e.target.closest("label.upload-btn");
@@ -63,6 +69,7 @@ document.addEventListener("change", function (e) {
   }
 });
 
+//VALIDAR CORREO Y ENVIAR CÓDIGO
 document.getElementById("sendEmailBtn").addEventListener("click", async (e) => {
   const btn = e.target;
   btn.disabled = true;
@@ -91,11 +98,12 @@ document.getElementById("sendEmailBtn").addEventListener("click", async (e) => {
   }
 });
 
+//VALIDAR CÓDIGO
 document.getElementById("validateCodeBtn").addEventListener("click", async () => {
   const email = document.getElementById("correoInput").value.trim().toLowerCase();
   const code = document.getElementById("codigoInput").value.trim();
   const btn = document.getElementById("validateCodeBtn");
-  btn.disabled = true; // block double click
+  btn.disabled = true;
   try {
     const res = await fetch("/validate_code", {
       method: "POST",
