@@ -24,6 +24,7 @@ export async function onRequest(context) {
     );
   }
 }
+
 export function getLastSessionCode() {
   return session_code;
 }
