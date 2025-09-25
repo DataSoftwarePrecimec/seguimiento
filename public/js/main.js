@@ -90,3 +90,28 @@ document.getElementById("sendEmailBtn").addEventListener("click", async (e) => {
     btn.disabled = false;
   }
 });
+
+document.getElementById("validateCodeBtn").addEventListener("click", async () => {
+  const email = document.getElementById("correoInput").value.trim().toLowerCase();
+  const code = document.getElementById("codigoInput").value.trim();
+  const btn = document.getElementById("validateCodeBtn");
+  btn.disabled = true; // block double click
+  try {
+    const res = await fetch("/validate_code", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, code, sessionCode: currentSessionCode })
+    });
+    const data = await res.json();
+    if (data.status === "ok") {
+      alert("✅ Código validado correctamente");
+    } else {
+      alert("❌ Código incorrecto o expirado");
+      btn.disabled = false;
+    }
+  } catch (err) {
+    console.error("Error en /validate_code:", err);
+    alert("Error de red al validar el código");
+    btn.disabled = false; // re-enable on failure
+  }
+});
