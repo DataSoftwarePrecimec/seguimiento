@@ -51,7 +51,7 @@ document.getElementById("codigoInput").addEventListener("input", function () {
 });
 
 //FUNCIÓN AL INICIO
-document.addEventListener("DOMContentLoaded", init_app);
+document.addEventListener("DOMContentLoaded", inititialize);
 
 //CAMBIAR BOTÓN A VERDE CUANDO SE SUBE UN ARCHIVO
 document.addEventListener("change", function (e) {
