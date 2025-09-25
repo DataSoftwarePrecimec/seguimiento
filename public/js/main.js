@@ -64,6 +64,8 @@ document.addEventListener("change", function (e) {
 });
 
 document.getElementById("sendEmailBtn").addEventListener("click", async () => {
+  const btn = e.target;
+  btn.disabled = true;
   const email = document.getElementById("correoInput").value.trim().toLowerCase();
   const res = await fetch("/send_code", {
     method: "POST",
@@ -81,5 +83,6 @@ document.getElementById("sendEmailBtn").addEventListener("click", async () => {
     document.getElementById("codigoInput").disabled = false;
   } else {
     alert("Error al enviar el código: " + (data.message || "desconocido"));
+    btn.disabled = false;
   }
 });
