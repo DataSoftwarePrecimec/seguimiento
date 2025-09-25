@@ -1,5 +1,4 @@
 function initialize() {
-  /*
   fetch("/get_rows")
     .then(res => {
       if (!res.ok) throw new Error("Network response was not ok");
@@ -20,7 +19,6 @@ function initialize() {
       document.getElementById("loading").innerHTML =
         "<p style='color:red'>Error cargando datos</p>";
     });
-*/
 }
 
 function show_message(msg, color = "red") {
