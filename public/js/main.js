@@ -101,10 +101,11 @@ async function get_rows_and_populate() {
   try {
     document.getElementById("loading").style.display = "block";
     document.querySelector("table").style.display = "none";
+    const code = document.getElementById("codigoInput").value.trim();
     const res = await fetch("/get_rows", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({}) // can be empty or later include params
+      body: JSON.stringify({code})
     });
     if (!res.ok) throw new Error("No se pudieron obtener los datos");
     const data = await res.json();
