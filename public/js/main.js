@@ -99,6 +99,8 @@ document.getElementById("validateCodeBtn").addEventListener("click", async () =>
 //OBTENER FILAS
 async function get_rows_and_populate() {
   try {
+    document.getElementById("loading").style.display = "block";
+    document.querySelector("table").style.display = "none";
     const res = await fetch("/get_rows", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
