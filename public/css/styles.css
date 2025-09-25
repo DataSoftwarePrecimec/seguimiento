@@ -111,3 +111,84 @@ td a {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+/* Form container */
+#entryForm {
+  max-width: 820px;
+  margin: 0 auto 18px;
+  padding: 8px 12px;
+  box-sizing: border-box;
+}
+
+/* Each row: label / input / button */
+.form-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+/* Labels aligned in a fixed column */
+.form-row label {
+  width: 170px;             /* change this to taste */
+  flex: 0 0 170px;
+  font-weight: 600;
+}
+
+/* Inputs grow to fill available space */
+.form-row input[type="email"],
+.form-row input[type="text"],
+.form-row textarea {
+  flex: 1 1 auto;
+  padding: 8px 10px;
+  border: 1px solid #cfcfcf;
+  border-radius: 6px;
+  font-size: 15px;
+  box-sizing: border-box;
+}
+
+/* Buttons keep a fixed width */
+.form-row button {
+  flex: 0 0 150px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: none;
+  background-color: #2a9d8f;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Disabled look */
+.form-row button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* inline validation message */
+.field-error {
+  color: #b00020;
+  font-size: 0.9rem;
+  margin: 4px 0 10px 170px; /* indent to align under inputs */
+  display: none;
+}
+
+/* Responsive: stack rows on narrow screens */
+@media (max-width: 600px) {
+  .form-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  .form-row label {
+    width: auto;
+    flex: 0 0 auto;
+  }
+  .field-error {
+    margin-left: 0;
+  }
+  .form-row button {
+    flex: 0 0 auto;
+    width: 100%;
+  }
+}
