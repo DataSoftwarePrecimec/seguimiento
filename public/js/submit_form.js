@@ -50,7 +50,7 @@ function submit_form() {
     fetch("/save_data", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ cmd: "save_data", code, payload, email })
+      body: JSON.stringify({ cmd: "save_data", code, payload})
     })
       .then(async res => {
         const text = await res.text();
