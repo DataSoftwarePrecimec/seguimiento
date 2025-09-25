@@ -33,6 +33,16 @@ function hide_message() {
   warning.textContent = "";
   warning.style.display = "none";
 }
+document.getElementById("correoInput").addEventListener("input", function () {
+  const email = this.value.trim();
+  const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  document.getElementById("sendEmailBtn").disabled = !isValid;
+});
+document.getElementById("codigoInput").addEventListener("input", function () {
+  const code = this.value.trim();
+  const isValid = /^\d{6}$/.test(code);
+  document.getElementById("validateCodeBtn").disabled = !isValid;
+});
 document.addEventListener("DOMContentLoaded", initApp);
 document.addEventListener("change", function (e) {
   if (e.target.matches("input[type='file']")) {
