@@ -33,17 +33,21 @@ function hide_message() {
   warning.textContent = "";
   warning.style.display = "none";
 }
+
 document.getElementById("correoInput").addEventListener("input", function () {
   const email = this.value.trim();
   const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   document.getElementById("sendEmailBtn").disabled = !isValid;
 });
+
 document.getElementById("codigoInput").addEventListener("input", function () {
   const code = this.value.trim();
   const isValid = /^\d{6}$/.test(code);
   document.getElementById("validateCodeBtn").disabled = !isValid;
 });
+
 document.addEventListener("DOMContentLoaded", initApp);
+
 document.addEventListener("change", function (e) {
   if (e.target.matches("input[type='file']")) {
     const label = e.target.closest("label.upload-btn");
@@ -64,12 +68,17 @@ document.getElementById("sendEmailBtn").addEventListener("click", async () => {
   const res = await fetch("/send_code", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email })
+    body: JSON.stringify({ cmd: "send_code", email })
   });
+
   const data = await res.json();
   if (data.status === "ok") {
-    alert("Código enviado a " + email + " por favor revise su correo e ingrese el Código en el campo correspondiente");
-    document.getElementById("codeInput").disabled = false;
+    alert(
+      "Código enviado a " +
+        email +
+        ". Por favor revise su correo e ingrese el código en el campo correspondiente."
+    );
+    document.getElementById("codigoInput").disabled = false;
   } else {
     alert("Error al enviar el código: " + (data.message || "desconocido"));
   }
