@@ -10,9 +10,10 @@ export async function onRequest(context) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body)
     });
-    fotr (let key in body){
+    for (let key in body){
       console.log(key + body[key]);
     }
+    console.log(response)
     const text = await response.text();
     return new Response(text, {
       status: response.status,
