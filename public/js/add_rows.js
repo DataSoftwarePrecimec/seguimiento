@@ -1,7 +1,4 @@
 function add_row(data, incons) {
-        for (let key in incons){
-          console.log(key  + ': ' + incons[key]);
-        }
         const table = document.getElementById("dataTable");
         const row = document.createElement("tr");
         row.dataset.edited = "false";
@@ -111,12 +108,12 @@ function add_row(data, incons) {
               incons[group].forEach(pair => {
                 const etiqueta = pair[0];
                 const responsable = pair[1];
-
+        
                 const opt = document.createElement("option");
                 opt.value = etiqueta;                 // show etiqueta only
                 opt.textContent = etiqueta;
                 opt.dataset.responsable = responsable; // keep responsable hidden
-
+        
                 etiquetaSelect.appendChild(opt);
               });
               etiquetaSelect.disabled = false;
@@ -128,4 +125,4 @@ function add_row(data, incons) {
             descripcionArea.disabled = this.value === "";
           });
         }
-      }
+}
