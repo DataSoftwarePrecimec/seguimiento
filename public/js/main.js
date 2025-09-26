@@ -156,7 +156,8 @@ async function download_report() {
   submitBtn.disabled   = true;
   downloadBtn.disabled = true;
   try {
-    const res = await fetch("/download_report", { method: "POST" });
+    const code = document.getElementById("codigoInput").value.trim();
+    const res  = await fetch("/download_report", {method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ code })});
     const data = await res.json();
     if (data && data.base64pdf) {
       const byteChars = atob(data.base64pdf);
