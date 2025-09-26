@@ -1,4 +1,4 @@
-function show_message(msg, color = "red") {
+ct.keysfunction show_message(msg, color = "red") {
   const warning = document.getElementById("formWarning");
   warning.textContent = msg;
   warning.style.display = "block";
@@ -159,7 +159,7 @@ async function download_report() {
     const code = document.getElementById("codigoInput").value.trim();
     const res  = await fetch("/download_report", {method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ code })});
     const data = await res.json();
-    console.log(data);
+    console.log(Object.keys(data));
     if (data && data.base64pdf) {
       const byteChars = atob(data.base64pdf);
       const byteNumbers = Array.from(byteChars, c => c.charCodeAt(0));
