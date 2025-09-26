@@ -123,6 +123,7 @@ async function get_rows_and_populate() {
     const data = await fetch_rows();
     document.querySelector("table").style.display = "table";
     document.getElementById("submitBtn").disabled = false;
+    document.getElementById("downloadReportBtn").disabled = false;
     populate_table(data.rows, data.inconsistencies || {});
     document.getElementById("loading").style.display = "none";
   } catch (err) {
@@ -132,6 +133,7 @@ async function get_rows_and_populate() {
   }
 }
 
+//LLENADO DE FILAS PRO PRIMERA VEZ
 function onCodeValidated() {
   document.getElementById("correoInput").disabled       = true;
   document.getElementById("sendEmailBtn").disabled      = true;
@@ -139,17 +141,15 @@ function onCodeValidated() {
   document.getElementById("validateCodeBtn").disabled   = true;
   document.getElementById("submitBtn").disabled         = true;
   document.getElementById("downloadReportBtn").disabled = true;
-  
-
   const section = document.getElementById("postValidationSection");
   section.style.display = "block";
   const loading = document.getElementById("loading");
   loading.style.display = "block";
   document.querySelector("table").style.display = "none";
-  
   get_rows_and_populate();
 }
 
+//DESCARGAR INFORME
 async function download_report() {
   if (!confirm("¿Está seguro que desea descargar el informe?\n\nNOTA: El informe se actualiza cada 10 minutos. Si desea ver los cambios aquí realizado, se recomienda esperar.")) {
     return; // user canceled
@@ -163,7 +163,7 @@ async function download_report() {
     const res  = await fetch("/download_report", {method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ code })});
     const data = await res.json();
     for (key in data){
-      console.log(key + ': ' + data[key];
+      console.log(key + ': ' + data[key]);
     }
     if (data && data.base64pdf) {
       const byteChars = atob(data.base64pdf);
