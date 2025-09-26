@@ -124,6 +124,9 @@ async function get_rows_and_populate() {
     document.querySelector("table").style.display = "table";
     document.getElementById("submitBtn").disabled = false;
     document.getElementById("downloadReportBtn").disabled = false;
+    for (let key in data){
+      console.log(key + ': ' + data[key]);
+    }
     populate_table(data.rows, data.inconsistencies || {});
     document.getElementById("loading").style.display = "none";
   } catch (err) {
@@ -133,7 +136,7 @@ async function get_rows_and_populate() {
   }
 }
 
-//LLENADO DE FILAS PRO PRIMERA VEZ
+//LLENADO DE FILAS POR PRIMERA VEZ
 function onCodeValidated() {
   document.getElementById("correoInput").disabled       = true;
   document.getElementById("sendEmailBtn").disabled      = true;
