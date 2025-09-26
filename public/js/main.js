@@ -131,3 +131,51 @@ async function get_rows_and_populate() {
     document.getElementById("loading").style.display = "none";
   }
 }
+
+function onCodeValidated() {
+  document.getElementById("correoInput").disabled     = true;
+  document.getElementById("sendEmailBtn").disabled    = true;
+  document.getElementById("codigoInput").disabled     = true;
+  document.getElementById("validateCodeBtn").disabled = true;
+
+  const section = document.getElementById("postValidationSection");
+  section.style.display = "block";
+  const loading = document.getElementById("loading");
+  loading.style.display = "block";
+  document.querySelector("table").style.display = "none";
+  document.getElementById("submitBtn").disabled = false;
+  get_rows_and_populate();
+}
+
+async function download_report() {
+  if (!confirm("¿Está seguro que desea descargar el informe?\n\nNOTA: El informe se actualiza cada 10 minutos. Si desea ver los cambios aquí realizado, se recomienda esperar.")) {
+    return; // user canceled
+  }
+  const submitBtn   = document.getElementById("submitBtn");
+  const downloadBtn = document.getElementById("downloadReportBtn");
+  submitBtn.disabled   = true;
+  downloadBtn.disabled = true;
+  try {
+    const res = await fetch("/download_report", { method: "POST" });
+    const data = await res.json();
+    if (data && data.base64pdf) {
+      const byteChars = atob(data.base64pdf);
+      const byteNumbers = Array.from(byteChars, c => c.charCodeAt(0));
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: "application/pdf" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "informe.pdf";
+      link.click();
+      URL.revokeObjectURL(link.href);
+    } else {
+      alert("El servidor no devolvió un PDF válido.");
+    }
+  } catch (err) {
+    console.error("Download error:", err);
+    alert("Error descargando el informe.");
+  } finally {
+    submitBtn.disabled   = false;
+    downloadBtn.disabled = false;
+  }
+}
