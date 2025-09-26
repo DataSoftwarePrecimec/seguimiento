@@ -1,4 +1,7 @@
 function add_row(data, incons) {
+        for (let key in incons){
+          console.log(key  + ': ' + incons[key]);
+        }
         const table = document.getElementById("dataTable");
         const row = document.createElement("tr");
         row.dataset.edited = "false";
