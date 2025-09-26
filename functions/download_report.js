@@ -15,9 +15,6 @@ export async function onRequestPost(context) {
       }
     );
     const data = await response.json();
-    for (let key in data){
-      console.log(key + ': ' + data[key]);
-    }
     return new Response(JSON.stringify(data), {
       status: response.status,
       headers: {
