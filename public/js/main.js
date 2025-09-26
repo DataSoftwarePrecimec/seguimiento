@@ -1,4 +1,4 @@
-ct.keysfunction show_message(msg, color = "red") {
+function show_message(msg, color = "red") {
   const warning = document.getElementById("formWarning");
   warning.textContent = msg;
   warning.style.display = "block";
