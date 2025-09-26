@@ -133,17 +133,20 @@ async function get_rows_and_populate() {
 }
 
 function onCodeValidated() {
-  document.getElementById("correoInput").disabled     = true;
-  document.getElementById("sendEmailBtn").disabled    = true;
-  document.getElementById("codigoInput").disabled     = true;
-  document.getElementById("validateCodeBtn").disabled = true;
+  document.getElementById("correoInput").disabled       = true;
+  document.getElementById("sendEmailBtn").disabled      = true;
+  document.getElementById("codigoInput").disabled       = true;
+  document.getElementById("validateCodeBtn").disabled   = true;
+  document.getElementById("submitBtn").disabled         = true;
+  document.getElementById("downloadReportBtn").disabled = true;
+  
 
   const section = document.getElementById("postValidationSection");
   section.style.display = "block";
   const loading = document.getElementById("loading");
   loading.style.display = "block";
   document.querySelector("table").style.display = "none";
-  document.getElementById("submitBtn").disabled = false;
+  
   get_rows_and_populate();
 }
 
