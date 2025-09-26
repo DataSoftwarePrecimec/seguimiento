@@ -11,9 +11,11 @@ export async function onRequest(context) {
       body: JSON.stringify(body)
     });
     for (let key in body){
-      console.log(key + body[key]);
+      console.log(key + ': "+ body[key]);
     }
-    console.log(response)
+    for (let key in response){
+      console.log(key + ': "+ response[key]);
+    }
     const text = await response.text();
     return new Response(text, {
       status: response.status,
