@@ -10,11 +10,12 @@ export async function onRequestPost(context) {
         body: JSON.stringify({
           cmd: "download_report",
           code: body.code,
-          session_code: body.session_code,
+          session_code: globalThis.session_code,
         }),
       }
     );
     const data = await response.json();
+    console.log(Object.keys(data));
     return new Response(JSON.stringify(data), {
       status: response.status,
       headers: {
