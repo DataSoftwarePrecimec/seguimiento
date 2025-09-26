@@ -162,17 +162,14 @@ async function download_report() {
     const code = document.getElementById("codigoInput").value.trim();
     const res  = await fetch("/download_report", {method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ code })});
     const data = await res.json();
-    for (key in data){
-      console.log(key + ': ' + data[key]);
-    }
-    if (data && data.base64pdf) {
-      const byteChars = atob(data.base64pdf);
+    if (data && data.filedata) {
+      const byteChars = atob(data.filedata);
       const byteNumbers = Array.from(byteChars, c => c.charCodeAt(0));
       const byteArray = new Uint8Array(byteNumbers);
       const blob = new Blob([byteArray], { type: "application/pdf" });
       const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
-      link.download = "informe.pdf";
+      link.download = data.filename;
       link.click();
       URL.revokeObjectURL(link.href);
     } else {
