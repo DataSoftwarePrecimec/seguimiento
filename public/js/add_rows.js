@@ -17,7 +17,7 @@ function add_row(data, incons) {
         const especialidadValue = data.especiality || "";
         row.innerHTML = `
           <td>${data.order}</td>
-           <td>${data.state || ""}</td> <!-- NEW COLUMN -->
+          <td><div style="text-align:center;">${data.state || ""}</div></td>
           <td>${data.name}</td>
           <td>${proformaLink ? `<a href="${proformaLink}" target="_blank">${proformaCode}</a>` : ""}</td>
           <td>${gastoLink ? `<a href="${gastoLink}" target="_blank">${gastoCode}</a>` : ""}</td>
