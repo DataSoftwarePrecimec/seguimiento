@@ -14,13 +14,13 @@ function validate_form() {
         }
         let edited = false;
         rows.forEach(row => {
-          const descCell      = row.cells[5];
-          const notaCell      = row.cells[6];
-          const espCell       = row.cells[7];
-          const aprCell       = row.cells[8];
-          const grupoSelect   = row.cells[9].querySelector("select");
-          const etiquetaSelect = row.cells[10].querySelector("select");
-          const descArea      = row.cells[11].querySelector("textarea");
+          const descCell      = row.cells[6];
+          const notaCell      = row.cells[7];
+          const espCell       = row.cells[8];
+          const aprCell       = row.cells[9];
+          const grupoSelect   = row.cells[10].querySelector("select");
+          const etiquetaSelect = row.cells[11].querySelector("select");
+          const descArea      = row.cells[12].querySelector("textarea");
           const fileDesc  = descCell.querySelector("input[type='file']");
           const fileNota  = notaCell.querySelector("input[type='file']");
           const espSelect = espCell.querySelector("select");
