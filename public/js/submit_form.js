@@ -55,8 +55,6 @@ function submit_form() {
     })
       .then(async res => {
         const result = await res.json();
-        console.log("save_data response:", result);
-      
         if (result.rows && result.incons) {
           show_message("Datos enviados correctamente.", "green");
           populate_table(result.rows, result.incons);
