@@ -124,6 +124,7 @@ async function get_rows_and_populate() {
     document.querySelector("table").style.display = "table";
     document.getElementById("submitBtn").disabled = false;
     document.getElementById("downloadReportBtn").disabled = false;
+    console.log(data.rows);
     populate_table(data.rows, data.incons || {});
     document.getElementById("loading").style.display = "none";
   } catch (err) {
