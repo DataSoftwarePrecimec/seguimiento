@@ -1,3 +1,13 @@
+const stateColors = {
+  "": "#fff3cd", // empty = yellow
+  "PROFORMA POR APROBAR": "#fff3cd", // yellow
+  "FACTURA POR APROBAR": "#fff3cd", // yellow
+  "PROFORMA APROBADA": "#d4edda",   // green
+  "FACTURA APROBADA": "#d4edda",    // green
+  "PROFORMA RECHAZADA": "#f8d7da",  // redish
+  "FACTURA RECHAZADA": "#f8d7da"    // redish
+};
+
 function add_row(data, incons) {
         console.log(data);
         const table = document.getElementById("dataTable");
@@ -17,7 +27,7 @@ function add_row(data, incons) {
         const especialidadValue = data.especiality || "";
         row.innerHTML = `
           <td>${data.order}</td>
-          <td><div style="text-align:center;">${data.state || ""}</div></td>
+          <td style="background-color:${stateColor};"><div style="text-align:center;">${data.state || ""}</div></td>
           <td>${data.name}</td>
           <td>${proformaLink ? `<a href="${proformaLink}" target="_blank">${proformaCode}</a>` : ""}</td>
           <td>${gastoLink ? `<a href="${gastoLink}" target="_blank">${gastoCode}</a>` : ""}</td>
