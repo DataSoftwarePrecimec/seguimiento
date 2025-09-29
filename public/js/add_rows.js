@@ -1,5 +1,4 @@
 function add_row(data, incons) {
-        console.log(data);
         const table = document.getElementById("dataTable");
         const row = document.createElement("tr");
         row.dataset.edited = "false";
