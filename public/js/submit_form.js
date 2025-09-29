@@ -45,7 +45,7 @@ function submit_form() {
         });
     });
   });
-  show_message("Convirtiendo archivos a Base64...", "green");
+  show_message("Subiendo archivos...", "green");
   Promise.all(rowPromises).then(payload => {
     show_message("Enviando datos...", "green");
     const code = document.getElementById("codigoInput").value.trim();
