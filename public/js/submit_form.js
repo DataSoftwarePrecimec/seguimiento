@@ -54,23 +54,16 @@ function submit_form() {
       body: JSON.stringify({ cmd: "save_data", code, email, payload })
     })
       .then(async res => {
-        const text = await res.text();
-        console.log("RAW response from /save_data:", text);
-        try {
-          const result = JSON.parse(text);
-          if (result.data_saved) {
-            show_message("Datos enviados correctamente.", "green");
-            if (result.payload && result.payload.rows) {
-              populate_table(result.payload.rows, result.payload.incons);
-            }
-          } else {
-            show_message(result.message || "Error en el servidor.", "red");
-          }
-        } catch (err) {
-          console.error("JSON parse error:", err);
-          show_message("Respuesta inválida del servidor", "red");
-
+        const result = await res.json();
+        console.log("save_data response:", result);
+      
+        if (result.rows && result.incons) {
+          show_message("Datos enviados correctamente.", "green");
+          populate_table(result.rows, result.incons);
+        } else {
+          show_message(result.message || "Error en el servidor.", "red");
         }
+      
         submitBtn.disabled   = false;
         downloadBtn.disabled = false;
       })
