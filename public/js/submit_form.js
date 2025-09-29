@@ -15,7 +15,7 @@ function submit_form() {
       const grupoSel    = r.cells[10].querySelector("select");
       const etiquetaSel = r.cells[11].querySelector("select");
       const descArea    = r.cells[12].querySelector("textarea");
-      console.log(descCell + ', ' + notaCell + ', ' + espCell + ', ' + aprSelect + ', ' + grupoSel + ', ' + etiquetaSel + ', ' + descArea);
+      console.log(descCell + ', ' + notaCell + ', ' + espSelect + ', ' + aprSelect + ', ' + grupoSel + ', ' + etiquetaSel + ', ' + descArea);
       const fileDesc = descCell.querySelector("input[type='file']")?.files[0] || null;
       const fileNota = notaCell.querySelector("input[type='file']")?.files[0] || null;
       const readFileAsBase64 = (file) => {
