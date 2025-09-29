@@ -1,4 +1,5 @@
 function add_row(data, incons) {
+        console.log(data);
         const table = document.getElementById("dataTable");
         const row = document.createElement("tr");
         row.dataset.edited = "false";
@@ -16,6 +17,7 @@ function add_row(data, incons) {
         const especialidadValue = data.especiality || "";
         row.innerHTML = `
           <td>${data.order}</td>
+           <td>${data.newField || ""}</td> <!-- NEW COLUMN -->
           <td>${data.name}</td>
           <td>${proformaLink ? `<a href="${proformaLink}" target="_blank">${proformaCode}</a>` : ""}</td>
           <td>${gastoLink ? `<a href="${gastoLink}" target="_blank">${gastoCode}</a>` : ""}</td>
