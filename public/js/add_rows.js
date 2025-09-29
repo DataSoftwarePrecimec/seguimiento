@@ -1,22 +1,34 @@
+const state_colors = {
+  "": "#fff3cd", // empty = yellow
+  "PROFORMA POR APROBAR": "#fff3cd", // yellow
+  "FACTURA POR APROBAR": "#fff3cd", // yellow
+  "PROFORMA APROBADA": "#d4edda",   // green
+  "FACTURA APROBADA": "#d4edda",    // green
+  "PROFORMA RECHAZADA": "#f8d7da",  // redish
+  "FACTURA RECHAZADA": "#f8d7da"    // redish
+};
+
+
 function add_row(data, incons) {
         const table = document.getElementById("dataTable");
         const row = document.createElement("tr");
         row.dataset.edited = "false";
         row.classList.add("data-row");
-        const notaCode        = data.links["NOTA ACLARATORIA"] ? Object.keys(data.links["NOTA ACLARATORIA"])[0] : "";
-        const notaLink        = data.links["NOTA ACLARATORIA"] ? Object.values(data.links["NOTA ACLARATORIA"])[0] : "";
-        const gastoCode       = data.links["GASTO QUIRÚRGICO"] ? Object.keys(data.links["GASTO QUIRÚRGICO"])[0] : "";
-        const gastoLink       = data.links["GASTO QUIRÚRGICO"] ? Object.values(data.links["GASTO QUIRÚRGICO"])[0] : "";
-        const facturaCode     = data.links["FACTURA"] ? Object.keys(data.links["FACTURA"])[0] : "";
-        const facturaLink     = data.links["FACTURA"] ? Object.values(data.links["FACTURA"])[0] : "";
-        const proformaCode    = data.links["PROFORMA"] ? Object.keys(data.links["PROFORMA"])[0] : "";
-        const proformaLink    = data.links["PROFORMA"] ? Object.values(data.links["PROFORMA"])[0] : "";
-        const descripcionCode = data.links["DESCRIPCION QUIRÚRGICA"] ? Object.keys(data.links["DESCRIPCION QUIRÚRGICA"])[0] : "";
-        const descripcionLink = data.links["DESCRIPCION QUIRÚRGICA"] ? Object.values(data.links["DESCRIPCION QUIRÚRGICA"])[0] : "";
+        const notaCode          = data.links["NOTA ACLARATORIA"] ? Object.keys(data.links["NOTA ACLARATORIA"])[0] : "";
+        const notaLink          = data.links["NOTA ACLARATORIA"] ? Object.values(data.links["NOTA ACLARATORIA"])[0] : "";
+        const gastoCode         = data.links["GASTO QUIRÚRGICO"] ? Object.keys(data.links["GASTO QUIRÚRGICO"])[0] : "";
+        const gastoLink         = data.links["GASTO QUIRÚRGICO"] ? Object.values(data.links["GASTO QUIRÚRGICO"])[0] : "";
+        const facturaCode       = data.links["FACTURA"] ? Object.keys(data.links["FACTURA"])[0] : "";
+        const facturaLink       = data.links["FACTURA"] ? Object.values(data.links["FACTURA"])[0] : "";
+        const proformaCode      = data.links["PROFORMA"] ? Object.keys(data.links["PROFORMA"])[0] : "";
+        const proformaLink      = data.links["PROFORMA"] ? Object.values(data.links["PROFORMA"])[0] : "";
+        const descripcionCode   = data.links["DESCRIPCION QUIRÚRGICA"] ? Object.keys(data.links["DESCRIPCION QUIRÚRGICA"])[0] : "";
+        const descripcionLink   = data.links["DESCRIPCION QUIRÚRGICA"] ? Object.values(data.links["DESCRIPCION QUIRÚRGICA"])[0] : "";
         const especialidadValue = data.especiality || "";
+        const state_color       = state_colors[data.state] || "#e2e3e5";
         row.innerHTML = `
           <td>${data.order}</td>
-          <td style="background-color:${stateColor};"><div style="text-align:center;">${data.state || ""}</div></td>
+          <td style="background-color:${state_color};"><div style="text-align:center;">${data.state || ""}</div></td>
           <td>${data.name}</td>
           <td>${proformaLink ? `<a href="${proformaLink}" target="_blank">${proformaCode}</a>` : ""}</td>
           <td>${gastoLink ? `<a href="${gastoLink}" target="_blank">${gastoCode}</a>` : ""}</td>
