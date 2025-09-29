@@ -1,13 +1,3 @@
-const stateColors = {
-  "": "#fff3cd", // empty = yellow
-  "PROFORMA POR APROBAR": "#fff3cd", // yellow
-  "FACTURA POR APROBAR": "#fff3cd", // yellow
-  "PROFORMA APROBADA": "#d4edda",   // green
-  "FACTURA APROBADA": "#d4edda",    // green
-  "PROFORMA RECHAZADA": "#f8d7da",  // redish
-  "FACTURA RECHAZADA": "#f8d7da"    // redish
-};
-
 function add_row(data, incons) {
         console.log(data);
         const table = document.getElementById("dataTable");
