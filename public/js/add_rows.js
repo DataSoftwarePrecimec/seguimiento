@@ -61,12 +61,12 @@ function add_row(data, incons) {
           });
         });
         
-        const descCell        = row.cells[5];
-        const especialidadCell= row.cells[7];
-        const aprobacionCell  = row.cells[8];
-        const grupoSelect     = row.cells[9].querySelector("select");
-        const etiquetaSelect  = row.cells[10].querySelector("select");
-        const descripcionArea = row.cells[11].querySelector("textarea");
+        const descCell        = row.cells[6];
+        const especialidadCell= row.cells[8];
+        const aprobacionCell  = row.cells[9];
+        const grupoSelect     = row.cells[10].querySelector("select");
+        const etiquetaSelect  = row.cells[11].querySelector("select");
+        const descripcionArea = row.cells[12].querySelector("textarea");
         if (data.approval.length === 0) {
           descCell.innerHTML = `
             <div style="text-align:center;">
