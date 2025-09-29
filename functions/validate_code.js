@@ -20,7 +20,6 @@ export async function onRequest(context) {
       );
     }
     body.session_code = globalThis.session_code;
-    console.log(body.session_code)
     const url = "https://script.google.com/macros/s/AKfycbxbsgfFR49j44PFsXi-BlxiD-0snFJaZU40kUOe0GcAmYKn7d8KcH3qQWVuG8g6jl7N/exec";
     const response = await fetch(url, {
       method: "POST",
@@ -33,7 +32,6 @@ export async function onRequest(context) {
       })
     });
     const data = await response.json();
-    console.log(data);
     if (data.valid === true) {
       return new Response(JSON.stringify({ status: "ok" }), {
         status: 200,
