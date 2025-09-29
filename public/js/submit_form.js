@@ -8,13 +8,13 @@ function submit_form() {
   const editedRows = Array.from(document.querySelectorAll("#dataTable tr")).filter(r => r.dataset.edited === "true");
   const rowPromises = editedRows.map(r => {
     return new Promise(resolve => {
-      const descCell    = r.cells[5];
-      const notaCell    = r.cells[6];
-      const espSelect   = r.cells[7].querySelector("select");
-      const aprSelect   = r.cells[8].querySelector("select");
-      const grupoSel    = r.cells[9].querySelector("select");
-      const etiquetaSel = r.cells[10].querySelector("select");
-      const descArea    = r.cells[11].querySelector("textarea");
+      const descCell    = r.cells[6];
+      const notaCell    = r.cells[7];
+      const espSelect   = r.cells[8].querySelector("select");
+      const aprSelect   = r.cells[9].querySelector("select");
+      const grupoSel    = r.cells[10].querySelector("select");
+      const etiquetaSel = r.cells[11].querySelector("select");
+      const descArea    = r.cells[12].querySelector("textarea");
       const fileDesc = descCell.querySelector("input[type='file']")?.files[0] || null;
       const fileNota = notaCell.querySelector("input[type='file']")?.files[0] || null;
       const readFileAsBase64 = (file) => {
