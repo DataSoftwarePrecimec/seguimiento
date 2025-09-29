@@ -1,13 +1,3 @@
-const stateColors = {
-  "": "#fff3cd", // empty = yellow
-  "PROFORMA POR APROBAR": "#fff3cd", // yellow
-  "FACTURA POR APROBAR": "#fff3cd", // yellow
-  "PROFORMA APROBADA": "#d4edda",   // green
-  "FACTURA APROBADA": "#d4edda",    // green
-  "PROFORMA RECHAZADA": "#f8d7da",  // redish
-  "FACTURA RECHAZADA": "#f8d7da"    // redish
-};
-
 function show_message(msg, color = "red") {
   const warning = document.getElementById("formWarning");
   warning.textContent = msg;
